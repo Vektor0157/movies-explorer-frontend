@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import './Register.css';
 import AuthProfile from '../AuthProfile/AuthProfile';
 import Input from '../Input/Input';
+import { useFormValidation } from '../../hooks/useFormValidation';
 
 function Register() {
 	return (

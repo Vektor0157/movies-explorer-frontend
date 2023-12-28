@@ -40,6 +40,10 @@
 	transition: 0.7s;
 }
 
+.movies-footer {
+	margin-top: 23px;
+}
+
 @media screen and (max-width: 1023px) {
 	.footer {
 		margin: 79px 30px 20px 30px;
