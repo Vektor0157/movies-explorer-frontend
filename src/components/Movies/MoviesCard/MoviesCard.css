@@ -33,6 +33,11 @@
 	max-width: 200px;
 }
 
+.trailer-link {
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
 .movie-card__duration {
 	font-weight: 400;
 	font-style: normal;
@@ -113,14 +118,5 @@
 		font-size: 13px;
 		line-height: 138.46%;
 		width: 70px;
-	}
-}
-
-@media screen and (min-width: 1280px) {
-	.movie-card__image {
-		height: 200px;
-	}
-	.movie-card__title {
-		width: 240px;
 	}
 }

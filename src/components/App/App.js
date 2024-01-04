@@ -34,7 +34,7 @@ function App() {
 	useEffect(() => {
 		const token = localStorage.getItem('token');
 		if (token) {
-			api.getUserInformation()
+			api.getUserInfo()
 			.then((dataUser) => {
 				setCurrentUser(dataUser)
 			})
@@ -67,7 +67,7 @@ function App() {
 
 	const handleLogin = (email, password) => {
 		setLoading(true);
-		auth.authorize(email, password)
+		auth.auth(email, password)
 		.then((data) => {
 			if (data && data.token) {
 				auth.setToken(data.token);
@@ -141,7 +141,7 @@ function App() {
 
 	const handleUpdateUser = (dataUser) => {
 		setLoading(true);
-		api.editUserInformation(dataUser)
+		api.editUserInfo(dataUser)
 		.then((dataUser) => {
 			setCurrentUser(dataUser);
 			setIsSaveSuccess(true);

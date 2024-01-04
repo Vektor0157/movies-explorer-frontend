@@ -2,9 +2,9 @@ import { useCallback, useState } from "react";
 import { emailRegex } from '../utils/contants';
 
 export function useFormValidation() {
-  const [values, setValues] = useState({});
-  const [errors, setErrors] = useState({});
-  const [isValid, setIsValid] = useState(false);
+const [values, setValues] = useState({});
+const [errors, setErrors] = useState({});
+const [isValid, setIsValid] = useState(false);
 
   const handleChange = (evt) => {
     const input = evt.target;

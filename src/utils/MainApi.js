@@ -10,7 +10,7 @@ class Api {
       return res.json().then((data) => Promise.reject({ status: res.status, message: data.message }));
     }
   }
-  getUserInformation() {
+  getUserInfo() {
     const token = localStorage.getItem('token');
     return fetch(`${this._url}/users/me`, {
       headers: {
@@ -19,7 +19,7 @@ class Api {
     })
       .then(res => this._checkResponse(res));
   }
-  editUserInformation(data) {
+  editUserInfo(data) {
     const token = localStorage.getItem('token');
     return fetch(`${this._url}/users/me`, {
       method: 'PATCH',
@@ -34,7 +34,6 @@ class Api {
     })
       .then(this._checkResponse);
   }
-  
   getSavedMovies() {
     const token = localStorage.getItem('token');
     return fetch(`${this._url}/movies`, {

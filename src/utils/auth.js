@@ -35,7 +35,7 @@ export const removeToken = () => {
   localStorage.removeItem('token');
 };
 
-export const authorize = (email, password) => {
+export const auth = (email, password) => {
   return fetch(`${BASE_URL}/signin`, {
     method: 'POST',
     headers: {

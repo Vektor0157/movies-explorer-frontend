@@ -37,7 +37,7 @@ function MoviesCard({ movie, handleSaveMovie, handleRemoveMovie, savedMovies, is
 
 	return (
 		<div className="movie-card">
-			<Link to={movie.trailerLink} target="_blank" rel="noopener noreferrer" className='trailerLink'>
+			<Link to={movie.trailerLink} target="_blank" rel="noopener noreferrer" className='trailer-link'>
 				<div className='movie-card__content'>
 					<div className='movie-card__description'>
 						<h2 className="movie-card__title">{movie.nameRU}</h2>
