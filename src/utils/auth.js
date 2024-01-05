@@ -13,11 +13,7 @@ export const register = (name, email, password) => {
 		headers: {
 			'Content-Type': 'application/json'
 		},
-		body: JSON.stringify({
-			name: name,
-			email: email,
-			password: password
-		})
+		body: JSON.stringify({ name, email, password })
 	}).then(checkData);
 }
 
