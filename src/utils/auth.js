@@ -39,17 +39,8 @@ export const auth = (email, password) => {
 		headers: {
 			'Content-Type': 'application/json'
 		},
-		body: JSON.stringify({
-			email: email,
-			password: password
-		})
+		body: JSON.stringify({ email, password })
 	}).then(checkData)
-	.then((data) => {
-		if (data.token) {
-			localStorage.setItem('token', data.token);
-			return data;
-		}
-	})
 };
 
 export const checkinValidityToken = (jwt) => {
@@ -61,7 +52,4 @@ export const checkinValidityToken = (jwt) => {
 			Authorization: `Bearer ${jwt}`,
 		},
 	}).then(checkData)
-	.then((data) => {
-		return data;
-	})
 }
