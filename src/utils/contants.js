@@ -11,15 +11,15 @@ const widthMobile = 320;
 const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$/;
 
 export {
-  showMoreDesktop,
-  showMoreTablet,
-  showMoreMobile,
-  showMoreAddDesktop,
-  showMoreAddMobile,
-  short,
-  time,
-  widthDesktop,
-  widthTablet,
-  widthMobile,
-  emailRegex
+	showMoreDesktop,
+	showMoreTablet,
+	showMoreMobile,
+	showMoreAddDesktop,
+	showMoreAddMobile,
+	short,
+	time,
+	widthDesktop,
+	widthTablet,
+	widthMobile,
+	emailRegex
 };

@@ -1,91 +1,93 @@
 class Api {
-  constructor(options) {
-    this._url = options.baseUrl;
-    this._headers = options.headers;
-  }
-  _checkResponse(res) {
-    if (res.ok) {
-      return res.json();
-    } else {
-      return res.json().then((data) => Promise.reject({ status: res.status, message: data.message }));
-    }
-  }
-  getUserInfo() {
-    const token = localStorage.getItem('token');
-    return fetch(`${this._url}/users/me`, {
-      headers: {
-        authorization: `Bearer ${token}`
-      }
-    })
-      .then(res => this._checkResponse(res));
-  }
-  editUserInfo(data) {
-    const token = localStorage.getItem('token');
-    return fetch(`${this._url}/users/me`, {
-      method: 'PATCH',
-      headers: {
-        ...this._headers,
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        name: data.name,
-        email: data.email,
-      })
-    })
-      .then(this._checkResponse);
-  }
-  getSavedMovies() {
-    const token = localStorage.getItem('token');
-    return fetch(`${this._url}/movies`, {
-      headers: {
-        authorization: `Bearer ${token}`
-      }
-    })
-      .then(res => this._checkResponse(res));
-  }
+	constructor(config) {
+		this._baseUrl = config.baseUrl;
+	}
 
-  createSavedMovie(data) {
-    const token = localStorage.getItem('token');
-    return fetch(`${this._url}/movies`, {
-      method: 'POST',
-      headers: {
-        authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        image: `https://api.nomoreparties.co${data.image.url}`,
-        thumbnail: `https://api.nomoreparties.co${data.image.formats.thumbnail.url}`,
-        trailerLink: data.trailerLink,
-        movieId: data.id,
-        country: data.country || "Нет",
-        director: data.director,
-        duration: data.duration,
-        description: data.description,
-        year: data.year,
-        nameRU: data.nameRU,
-        nameEN: data.nameEN,
-      }),
-    })
-      .then(this._checkResponse);
-  }
-  deleteSaved(movieId) {
-    const token = localStorage.getItem('token');
-    return fetch(`${this._url}/movies/${movieId}`, {
-      method: 'DELETE',
-      headers: {
-        authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(this._checkResponse);
-  }
+	_checkData (res) {
+	if (!res.ok) {
+		return Promise.reject(`Ошибка: ${res.status}`);
+	}
+	return res.json();
+	}
+
+	getUserInfo() {
+		return fetch(`${this._baseUrl}/users/me`, {
+			method: 'GET',
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+				'Content-Type': 'application/json'
+			}
+		})
+		.then((res) => this._checkData(res));
+	}
+
+	editUserInfo(user) {
+		return fetch(`${this._baseUrl}/users/me`, {
+			method: 'PATCH',
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				name: user.name,
+				email: user.email,
+			})
+		})
+		.then((res) => this._checkData(res));
+	}
+
+	getSavedMovies() {
+		return fetch(`${this._baseUrl}/movies`, {
+			method: 'GET',
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+				'Content-Type': 'application/json'
+			}
+		})
+		.then((res) => this._checkData(res));
+	}
+
+	createSavedMovie({trailerLink, movieId, country, director, duration, description, year, nameRU, nameEN}) {
+		return fetch(`${this._baseUrl}/movies`, {
+			method: 'POST',
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				image: `https://api.nomoreparties.co${movieId.image.url}`,
+				thumbnail: `https://api.nomoreparties.co${movieId.image.formats.thumbnail.url}`,
+				trailerLink,
+				movieId,
+				country,
+				director,
+				duration,
+				description,
+				year,
+				nameRU,
+				nameEN,
+			}),
+		})
+		.then((res) => this._checkData(res));
+	}
+
+	deleteSaved(movieId) {
+		return fetch(`${this._baseUrl}/movies/${movieId}`, {
+			method: 'DELETE',
+			headers: {
+				'authorization': `Bearer ${localStorage.getItem('jwt')}`,
+				'Content-Type': 'application/json'
+			}
+		})
+		.then((res) => this._checkData(res));
+	}
 }
 
 const api = new Api({
-  baseUrl: 'https://api.vmovies.nomoredomainsmonster.ru',
-  headers: {
-    'Content-Type': 'application/json'
-  }
+	baseUrl: 'https://api.vmovies.nomoredomainsmonster.ru',
+	headers: {
+		'Content-Type': 'application/json'
+	}
 });
 
 export default api;

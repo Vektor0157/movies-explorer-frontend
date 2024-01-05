@@ -1,71 +1,67 @@
 export const BASE_URL = 'https://api.vmovies.nomoredomainsmonster.ru';
-const checkResponse = (res) => {
-  if (res.ok) {
-    return res.json();
-  } else {
-    return res.json().then((data) => Promise.reject({ status: res.status, message: data.message }));
-  }
+
+const checkData = (res) => {
+	if (!res.ok) {
+		return Promise.reject(`Ошибка: ${res.status}`);
+	}
+	return res.json();
 }
 
 export const register = (name, email, password) => {
-  return fetch(`${BASE_URL}/signup`, {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      name: name,
-      email: email,
-      password: password
-    })
-  })
-    .then(res => checkResponse(res));
+	return fetch(`${BASE_URL}/signup`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			name: name,
+			email: email,
+			password: password
+		})
+	}).then(checkData);
 }
 
 export const getToken = () => {
-  return localStorage.getItem('token');
+	return localStorage.getItem('jwt');
 };
 
-export const setToken = (token) => {
-  localStorage.setItem('token', token);
+export const setToken = (jwt) => {
+	localStorage.setItem('jwt', jwt);
 };
 
 export const removeToken = () => {
-  localStorage.removeItem('token');
+	localStorage.removeItem('jwt');
 };
 
 export const auth = (email, password) => {
-  return fetch(`${BASE_URL}/signin`, {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      email: email,
-      password: password
-    })
-  })
-    .then(res => checkResponse(res))
-    .then((data) => {
-      if (data.token) {
-        localStorage.setItem('token', data.token);
-        return data;
-      }
-    })
+	return fetch(`${BASE_URL}/signin`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			email: email,
+			password: password
+		})
+	}).then(checkData)
+	.then((data) => {
+		if (data.token) {
+			localStorage.setItem('token', data.token);
+			return data;
+		}
+	})
 };
 
-export const checkinValidityToken = (token) => {
-  return fetch(`${BASE_URL}/users/me`, {
-    method: 'GET',
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`
-    },
-  })
-    .then(res => checkResponse(res))
-    .then((data) => {
-      return data;
-    })
+export const checkinValidityToken = (jwt) => {
+	return fetch(`${BASE_URL}/users/me`, {
+		method: 'GET',
+		headers: {
+			"Accept": 'application/json',
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${jwt}`,
+		},
+	}).then(checkData)
+	.then((data) => {
+		return data;
+	})
 }
