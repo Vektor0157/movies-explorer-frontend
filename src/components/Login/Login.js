@@ -3,7 +3,7 @@ import './Login.css';
 import AuthProfile from '../AuthProfile/AuthProfile';
 import Input from '../Input/Input';
 
-function Login({ onLogin, errorMessageAuth }) {
+function Login({ handleLogin, errorMessageAuth }) {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
@@ -17,7 +17,7 @@ function Login({ onLogin, errorMessageAuth }) {
 
 	const handleSubmit = (evt) => {
 		evt.preventDefault();
-		onLogin(email, password);
+		handleLogin(email, password);
 	};
 
 	const isFormValid = email !== '' && password !== '';
