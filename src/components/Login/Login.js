@@ -17,7 +17,7 @@ function Login({ handleLogin, errorMessageAuth }) {
 
 	const handleSubmit = (evt) => {
 		evt.preventDefault();
-		onLogin(email, password);
+		handleLogin(email, password);
 	};
 
 	const isFormValid = email !== '' && password !== '';
