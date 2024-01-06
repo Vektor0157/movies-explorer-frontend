@@ -11,29 +11,19 @@ export const register = (name, email, password) => {
 	return fetch(`${BASE_URL}/signup`, {
 		method: 'POST',
 		headers: {
-			'Content-Type': 'application/json'
+			'Accept': 'application/json',
+         'Content-Type': 'application/json'
 		},
 		body: JSON.stringify({ name, email, password })
 	}).then(checkData);
 }
 
-export const getToken = () => {
-	return localStorage.getItem('jwt');
-};
-
-export const setToken = (jwt) => {
-	localStorage.setItem('jwt', jwt);
-};
-
-export const removeToken = () => {
-	localStorage.removeItem('jwt');
-};
-
-export const auth = (email, password) => {
+export const login = (email, password) => {
 	return fetch(`${BASE_URL}/signin`, {
 		method: 'POST',
 		headers: {
-			'Content-Type': 'application/json'
+			'Accept': 'application/json',
+            'Content-Type': 'application/json'
 		},
 		body: JSON.stringify({ email, password })
 	}).then(checkData)

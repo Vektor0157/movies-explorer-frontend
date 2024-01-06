@@ -50,6 +50,7 @@ function App() {
 		auth.register(name, email, password)
 		.then(() => {
 			handleLogin(email, password);
+			navigate("/movies", { replace: true });
 		})
 		.catch((error) => {
 			if (error.status === 409) {
@@ -65,7 +66,7 @@ function App() {
 	};
 
 	function handleLogin(email, password) {
-		auth.auth(email, password)
+		auth.login(email, password)
 		.then((res) => {
 			localStorage.setItem("jwt", res.token);
 			setLoggedIn(true);
@@ -78,7 +79,7 @@ function App() {
 
 	useEffect(() => {
 		if (loggedIn) {
-			const token = auth.getToken();
+			const token = auth.checkinValidityToken();
 			if (token) {
 			auth.checkinValidityToken(token)
 				.catch(error => {
@@ -99,7 +100,7 @@ function App() {
 		if (token) {
 			handleAutoLogin(token);
 		}
-		const authToken = auth.getToken();
+		const authToken = auth.checkinValidityToken();
 		if (authToken) {
 			auth.checkinValidityToken(authToken)
 			.then(() => {
