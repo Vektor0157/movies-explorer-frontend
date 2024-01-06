@@ -1,6 +1,6 @@
 class Api {
-	constructor(config) {
-		this._baseUrl = config.baseUrl;
+	constructor(options) {
+		this._baseUrl = options.baseUrl;
 	}
 
 	_checkData (res) {

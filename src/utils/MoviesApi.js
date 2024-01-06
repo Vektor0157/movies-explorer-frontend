@@ -1,8 +1,8 @@
 class MoviesApi {
-	constructor(config) {
-		this._baseUrl = config.baseUrl;
-		this._headers = config.headers;
-		this._auth = config.headers.auth;
+	constructor(options) {
+		this._baseUrl = options.baseUrl;
+		this._headers = options.headers;
+		this._auth = options.headers.auth;
 	}
 
 	_checkData (res) {
