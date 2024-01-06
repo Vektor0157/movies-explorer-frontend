@@ -84,10 +84,9 @@ function App() {
 		.then((res) => {
 			localStorage.setItem('jwt', res.token);
 			handleLogin();
-			navigate("/", { replace: true });
+			navigate("/movies", { replace: true });
 		})
 		.catch((err) => {
-			navigate("/sign-up");
 			console.log(err);
 		})
 	}
@@ -98,10 +97,9 @@ function App() {
 			localStorage.setItem('jwt', res.token);
 			setLoggedIn(true);
 			handleLogin();
-			navigate("/", { replace: true });
+			navigate("/movies", { replace: true });
 		})
 		.catch((err) => {
-			navigate("/sign-in");
 			console.log(err);
 		})
 	}
