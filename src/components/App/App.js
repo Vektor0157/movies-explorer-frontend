@@ -79,8 +79,8 @@ function App() {
 		});
 	};
 
-	function handleRegisterUser(data) {
-	auth.register(data)
+	function handleRegisterUser(name, email, password) {
+	auth.register(name, email, password)
 		.then((res) => {
 			localStorage.setItem('jwt', res.token);
 			handleLogin();
@@ -92,8 +92,8 @@ function App() {
 		})
 	}
 
-	function handleAuthorizationUser(data) {
-	auth.login(data)
+	function handleAuthorizationUser(email, password) {
+	auth.login(email, password)
 		.then((res) => {
 			localStorage.setItem('jwt', res.token);
 			handleLogin();
