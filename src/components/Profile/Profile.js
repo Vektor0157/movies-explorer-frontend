@@ -2,12 +2,12 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Profile.css';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
-import { emailRegex } from '../../utils/contants';
 
 function Profile({ onUpdateUser, onLogout }) {
   const currentUser = useContext(CurrentUserContext);
   const [values, setValues] = useState({});
   const [errors, setErrors] = useState({});
+  const [formValue, setFormValue] = useState({})
   const [isValid, setIsValid] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [isButtonActive, setIsButtonActive] = useState(false);
@@ -38,21 +38,22 @@ function Profile({ onUpdateUser, onLogout }) {
 
   const titleText = currentUser ? `Привет, ${displayName}!` : 'Привет';
 
-  const handleChange = (evt) => {
-    const input = evt.target;
-    const value = input.value;
-    const name = input.name;
-    setValues({ ...values, [name]: value });
-    let newErrors = { ...errors };
-    if (name === 'email') {
-      newErrors[name] = emailRegex.test(value) ? '' : 'Введите корректный email';
-    } else {
-      newErrors[name] = input.validationMessage;
-    }
-    setErrors(newErrors);
-    const isFormValid = Object.values(newErrors).every((error) => error === '') && Object.values(values).every((val) => val !== '');
-    setIsValid(isFormValid);
-  };
+  function handleChange(e) {
+	const target = e.target;
+	const name = target.name;
+	const value = target.value;
+	if (name === 'email') {
+	  const isValidEmail = /\S+@\S+\.\S+/.test(value);
+	  if (!isValidEmail) {
+		 target.setCustomValidity('Некорректный адрес почты');
+	  } else {
+		 target.setCustomValidity('');
+	  }
+	}
+	setFormValue({ ...formValue, [name]: value });
+	setErrors({ ...errors, [name]: target.validationMessage });
+	setIsValid(target.closest('form').checkValidity());
+ };
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -62,12 +63,8 @@ function Profile({ onUpdateUser, onLogout }) {
 
   const handleSaveClick = (evt) => {
     evt.preventDefault();
-    if (isValid && isButtonActive && isDataChanged) {
-      onUpdateUser({
-        name: values.name,
-        email: values.email,
-      });
-      setIsEditing(false);
+    if (currentUser.name !== formValue.name && currentUser.email !== formValue.email) {
+      onUpdateUser(formValue.name, formValue.email);
     }
   };
 
@@ -91,10 +88,12 @@ function Profile({ onUpdateUser, onLogout }) {
             className='profile__input'
             type='text'
             minLength='2'
+				maxLength="40"
             required
             value={values.name || ''}
             onChange={handleChange}
             disabled={!isEditing}
+				defaultValue={currentUser.name}
           />
         </div>
         {errors.name && <span className='profile__error'>{errors.name}</span>}
@@ -107,9 +106,12 @@ function Profile({ onUpdateUser, onLogout }) {
             className='profile__input'
             type='email'
             required
+				minLength="2"
+            maxLength="30"
             value={values.email || ''}
             onChange={handleChange}
             disabled={!isEditing}
+				defaultValue={currentUser.email}
           />
         </div>
         {errors.email && <span className='profile__error'>{errors.email}</span>}

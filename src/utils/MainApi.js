@@ -21,7 +21,7 @@ class Api {
 		.then((res) => this._checkData(res));
 	}
 
-	editUserInfo(user) {
+	editUserInfo(name, email) {
 		return fetch(`${this._baseUrl}/users/me`, {
 			method: 'PATCH',
 			headers: {
@@ -29,8 +29,8 @@ class Api {
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
-				name: user.name,
-				email: user.email,
+				name: name,
+				email: email,
 			})
 		})
 		.then((res) => this._checkData(res));

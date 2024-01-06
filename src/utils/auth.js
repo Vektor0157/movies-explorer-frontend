@@ -7,34 +7,39 @@ const checkData = (res) => {
 	return res.json();
 }
 
-export const register = (name, email, password) => {
+export const register = (data) => {
 	return fetch(`${BASE_URL}/signup`, {
-		method: 'POST',
+		method: "POST",
 		headers: {
-			'Accept': 'application/json',
-         'Content-Type': 'application/json'
+			"Content-Type": "application/json",
 		},
-		body: JSON.stringify({ name, email, password })
+		body: JSON.stringify({
+			name: data.name,
+			email: data.email,
+			password: data.password,
+		}),
 	}).then(checkData);
 }
 
-export const login = (email, password) => {
+export const login = (data) => {
 	return fetch(`${BASE_URL}/signin`, {
-		method: 'POST',
+		method: "POST",
 		headers: {
-			'Accept': 'application/json',
-            'Content-Type': 'application/json'
+			"Content-Type": "application/json",
 		},
-		body: JSON.stringify({ email, password })
+		body: JSON.stringify({
+			email: data.email,
+			password: data.password
+		}),
 	}).then(checkData)
 };
 
-export const checkinValidityToken = (jwt) => {
+export const checkinValidityToken = (token) => {
 	return fetch(`${BASE_URL}/users/me`, {
 		method: 'GET',
 		headers: {
-			"Accept": 'application/json',
-			"Content-Type": "application/json",
+			'Content-Type': 'application/json',
+			'Authorization': `Bearer ${token}`,
 		},
 	}).then(checkData)
 }

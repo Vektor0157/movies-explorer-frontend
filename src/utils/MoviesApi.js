@@ -12,6 +12,14 @@ class MoviesApi {
 		return res.json();
 	}
 
+	_getHeaders() {
+		const jwt = localStorage.getItem('jwt');
+		return {
+			'Authorization': `Bearer ${jwt}`,
+			"Content-Type": "application/json",
+		};
+	}
+
 	getSearchMovies() {
 		return fetch(this._baseUrl, {
 			headers: this._headers,
