@@ -43,7 +43,7 @@ function Register({ handleRegister, errorMessageAuth }) {
 
 	return (
 		<main className="register">
-			<AuthProfile title="Добро пожаловать!" name="register" ariaLabel="Зарегистрироваться" handleSubmit={handleSubmit} gray="Уже зарегистрированы?" blue="Войти" link="/signin" errorMessageAuth={errorMessageAuth} isActive={isButtonActive}>
+			<AuthProfile title="Добро пожаловать!" name="register" ariaLabel="Зарегистрироваться" handleSubmit={handleSubmit} gray="Уже зарегистрированы?" blue="Войти" link="/signin" errorMessageAuth={errorMessageAuth} isActive={isButtonActive} handleRegister={handleRegister}>
 				<Input id="name" name="name" className="register__input" type="text" label="Имя" minLength="2" required value={name} onChange={handleChangeName} placeholder="Имя" error={nameError}/>
 				<Input id="email" name="email" className="register__input" type="email" label="Email" required value={email} onChange={handleChangeEmail} placeholder="Email" error={emailError}/>
 				<Input id="password" className="register__input" type="password" label="Пароль" name="password" minLength="8" maxLength="20" required value={password} onChange={handleChangePassword} placeholder="Пароль" error={passwordError}/>

@@ -31,7 +31,7 @@ function Login({ handleLogin, errorMessageAuth }) {
 
 	return (
 		<main className='login'>
-			<AuthProfile title="Рады видеть!" name="login" ariaLabel="Войти" handleSubmit={handleSubmit} gray="Ещё не зарегистрированы?" blue="Регистрация" link="/signup" errorMessageAuth={errorMessageAuth} isActive={isFormValid}>
+			<AuthProfile title="Рады видеть!" name="login" ariaLabel="Войти" handleSubmit={handleSubmit} gray="Ещё не зарегистрированы?" blue="Регистрация" link="/signup" errorMessageAuth={errorMessageAuth} isActive={isFormValid} handleLogin={handleLogin}>
 				<Input id="email" name="email" className="login__input" type="email" label="Email" required value={email} onChange={handleChangeEmail} placeholder="Email" error={email === '' ? 'Введите email' : ''}/>
 				<Input id="password" className="login__input" type="password" label="Пароль" name="password" minLength="8" maxLength="20" required value={password} onChange={handleChangePassword} placeholder="Пароль" error={password === '' ? 'Введите пароль' : ''} autoComplete="current-password"/>
 			</AuthProfile>
