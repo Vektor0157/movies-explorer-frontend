@@ -1,20 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './AuthProfile.css';
 import logoAuthForm from '../../images/logo.svg'
 import { Link } from 'react-router-dom';
 
-function AuthProfile({ handleLogin, handleRegister, title, isActive, children, ariaLabel, formType, gray, blue, link, errorMessageAuth}) {
+function AuthProfile({ name, title, isActive, children, ariaLabel, formType, handleSubmit, gray, blue, link, errorMessageAuth}) {
 	const submitButtonClassName = formType === 'register' ? 'auth__submit-register' : 'auth__submit-login';
 	const errorButtonClassName = formType === 'register' ? 'auth__error-register' : 'auth__error-login';
 	const buttonClasses = isActive ? submitButtonClassName : `${submitButtonClassName} auth__submit_inactive`;
-	const [name] = useState('');
-	const [email] = useState('');
-	const [password] = useState('');
-	const handleSubmit = (evt) => {
-		evt.preventDefault();
-		handleLogin(email, password);
-		handleRegister(name, email, password);
-	};
+
 	return (
 		<div className={`auth auth_type_${name}`}>
 			<div className="auth__container">
