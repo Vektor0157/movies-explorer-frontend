@@ -15,8 +15,7 @@ function Login({ handleLogin, errorMessageAuth }) {
 		setPassword(e.target.value);
 	};
 
-	const handleSubmit = (evt) => {
-		evt.preventDefault();
+	const handleSubmit = (email, password) => {
 		handleLogin(email, password);
 	};
 
