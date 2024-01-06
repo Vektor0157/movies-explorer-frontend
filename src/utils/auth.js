@@ -7,29 +7,29 @@ function checkData(res) {
 	return res.json();
 }
 
-export const register = (user) => {
+export const register = (name, email, password) => {
 	return fetch(`${BASE_URL}/signup`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
 		},
 		body: JSON.stringify({
-			name: user.name,
-			email: user.email,
-			password: user.password,
+			name,
+			email,
+			password
 		}),
 	}).then(checkData);
 }
 
-export const login = (user) => {
+export const login = (email, password) => {
 	return fetch(`${BASE_URL}/signin`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
 		},
 		body: JSON.stringify({
-			email: user.email,
-			password: user.password
+			email,
+			password
 		}),
 	}).then(checkData)
 };
