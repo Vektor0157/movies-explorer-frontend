@@ -95,7 +95,6 @@ function App() {
 	auth.login(email, password)
 		.then((res) => {
 			localStorage.setItem('jwt', res.token);
-			setLoggedIn(true);
 			handleLogin();
 			navigate("/movies", { replace: true });
 		})
