@@ -21,16 +21,17 @@ class Api {
 		.then((res) => this._checkData(res));
 	}
 
-	editUserInfo(name, email) {
+	editUserInfo(user) {
 		return fetch(`${this._baseUrl}/users/me`, {
 			method: 'PATCH',
+			credentials: "include",
 			headers: {
 				'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
-				name: name,
-				email: email,
+				name: user.name,
+				email: user.email,
 			})
 		})
 		.then((res) => this._checkData(res));

@@ -66,7 +66,7 @@ function App() {
 
 	const handleGetAllMovies = (preloader) => {
 	preloader(true);
-	apiMovies.getMovies()
+	apiMovies.getSearchMovies()
 		.then((data) => {
 			setMovies(data);
 			localStorage.setItem("arrayMovies", JSON.stringify(data));
@@ -117,10 +117,14 @@ function App() {
 		localStorage.removeItem('isShortsSavedMovies');
 	}
 
-	function handleUpdateUser(name, email) {
-		api.updateUserInfo(name, email)
-		.then((data) => {
-			setCurrentUser(data);
+	function handleUpdateUser(user) {
+		api.editUserInfo(user)
+		.then((update) => {
+			setCurrentUser({
+				...currentUser,
+				name: update.name,
+				email: update.email,
+			})
 		})
 		.catch((err) => err);
 	}
@@ -139,7 +143,7 @@ function App() {
 			nameRU: movie.nameRU,
 			nameEN: movie.nameEN,
 		};
-		api.saveMovies(objMovie)
+		api.createSavedMovie(objMovie)
 			.then((objMovie) => {
 				setSavedMovies([objMovie, ...savedMovies]);
 			})
@@ -150,7 +154,7 @@ function App() {
 	};
 
 	const handleDeleteMovie = (movie, setIsSaved) => {
-		api.deleteMovie(movie._id)
+		api.deleteSaved(movie._id)
 		.then(() => {
 			setSavedMovies((state) => state.filter((c) => c._id !== movie._id && c));
 		})

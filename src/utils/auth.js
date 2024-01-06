@@ -34,12 +34,13 @@ export const login = (email, password) => {
 	}).then(checkData)
 };
 
-export const getContent = (token) => {
+export const getContent = (jwt) => {
 	return fetch(`${BASE_URL}/users/me`, {
 		method: 'GET',
 		headers: {
-			'Content-Type': 'application/json',
-			'Authorization': `Bearer ${token}`,
+			"Accept": 'application/json',
+			"Content-Type": "application/json",
+			'Authorization': `Bearer ${jwt}`,
 		},
 	}).then(checkData)
 }
