@@ -14,6 +14,7 @@ function AuthProfile({
 	link,
 	errorMessageAuth,
 	isActive,
+	children
 }) {
 	const submitButtonClassName = 'auth__submit-login';
 	const errorButtonClassName = 'auth__error-login';
@@ -31,6 +32,7 @@ function AuthProfile({
 				<h1 className="auth__title">{title}</h1>
 				<form className={`auth__form-element auth__form-element_type_${name}`} name={`${name}-form`} onSubmit={handleFormSubmit}>
 					{isLoading && <div>Loading...</div>}
+					{children}
 					{errorMessageAuth && <span className={errorButtonClassName}>{errorMessageAuth}</span>}
 					<button className={`auth__submit ${buttonClasses}`} type="submit" aria-label={ariaLabel}>{ariaLabel}</button>
 				</form>
