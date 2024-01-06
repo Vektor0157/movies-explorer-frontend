@@ -35,7 +35,6 @@ export const checkinValidityToken = (jwt) => {
 		headers: {
 			"Accept": 'application/json',
 			"Content-Type": "application/json",
-			Authorization: `Bearer ${jwt}`,
 		},
 	}).then(checkData)
 }
