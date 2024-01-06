@@ -3,7 +3,7 @@ import './Register.css';
 import AuthProfile from '../AuthProfile/AuthProfile';
 import Input from '../Input/Input';
 
-function Register({ handleRegister, errorMessageAuth }) {
+function Register({ onRegister, errorMessageAuth }) {
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -27,7 +27,7 @@ function Register({ handleRegister, errorMessageAuth }) {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		if (name && email && password) {
-			handleRegister(name, email, password);
+			onRegister(name, email, password);
 		}
 	};
 
@@ -43,7 +43,7 @@ function Register({ handleRegister, errorMessageAuth }) {
 
 	return (
 		<main className="register">
-			<AuthProfile title="Добро пожаловать!" name="register" ariaLabel="Зарегистрироваться" handleSubmit={handleSubmit} gray="Уже зарегистрированы?" blue="Войти" link="/signin" errorMessageAuth={errorMessageAuth} isActive={isButtonActive} handleRegister={handleRegister}>
+			<AuthProfile title="Добро пожаловать!" name="register" ariaLabel="Зарегистрироваться" handleSubmit={handleSubmit} gray="Уже зарегистрированы?" blue="Войти" link="/signin" errorMessageAuth={errorMessageAuth} isActive={isButtonActive} onRegister={onRegister}>
 				<Input id="name" name="name" className="register__input" type="text" label="Имя" minLength="2" required value={name} onChange={handleChangeName} placeholder="Имя" error={nameError}/>
 				<Input id="email" name="email" className="register__input" type="email" label="Email" required value={email} onChange={handleChangeEmail} placeholder="Email" error={emailError}/>
 				<Input id="password" className="register__input" type="password" label="Пароль" name="password" minLength="8" maxLength="20" required value={password} onChange={handleChangePassword} placeholder="Пароль" error={passwordError}/>

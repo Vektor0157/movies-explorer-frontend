@@ -47,7 +47,6 @@ function App() {
 	}, [loggedIn]);
 
 	const handleRegister = (name, email, password) => {
-		setLoading(true);
 		auth.register(name, email, password)
 		.then(() => {
 			handleLogin(email, password);
@@ -65,36 +64,17 @@ function App() {
 		});
 	};
 
-	const handleLogin = (email, password) => {
-		setLoading(true);
+	function handleLogin(email, password) {
 		auth.auth(email, password)
-		.then((data) => {
-			if (data && data.token) {
-				auth.setToken(data.token);
-				setLoggedIn(true);
-				localStorage.setItem('loggedIn', true);
-				navigate('/movies');
-			} else if (data && data.statusCode === 401) {
-				setErrorMessageAuth('Вы ввели неправильный логин или пароль.');
-			} else {
-				setErrorMessageAuth('При авторизации произошла неизвестная ошибка.');
-			}
+		.then((res) => {
+			localStorage.setItem("jwt", res.token);
+			setLoggedIn(true);
+			navigate("/movies", { replace: true });
 		})
-		.catch((error) => {
-			if (error.status === 401) {
-				setErrorMessageAuth('Вы ввели неправильный логин или пароль.');
-			} else if (error.status === 400) {
-				setErrorMessageAuth('При авторизации произошла ошибка. Токен не передан или передан не в том формате.');
-			} else if (error.status === 403) {
-				setErrorMessageAuth('При авторизации произошла ошибка. Переданный токен некорректен.');
-			} else {
-				setErrorMessageAuth('При авторизации произошла неизвестная ошибка.');
-			}
-		})
-		.finally(() => {
-			setLoading(false);
+		.catch((err) => {
+			console.log(err);
 		});
-	};
+	}
 
 	useEffect(() => {
 		if (loggedIn) {
@@ -108,12 +88,10 @@ function App() {
 		}
 	}, [loggedIn]);
 
-	const handleAutoLogin = (token) => {
-		setLoading(true);
-		localStorage.setItem('token', token);
-		setLoggedIn(true);
-		localStorage.setItem('loggedIn', true);
-		setLoading(false);
+	const handleAutoLogin = () => {
+		setLoggedIn(false);
+		localStorage.removeItem("jwt");
+		navigate("/sign-in", { replace: true });
 	};
 
 	useEffect(() => {
@@ -139,11 +117,14 @@ function App() {
 		}
 	}, []);
 
-	const handleUpdateUser = (dataUser) => {
-		setLoading(true);
-		api.editUserInfo(dataUser)
-		.then((dataUser) => {
-			setCurrentUser(dataUser);
+	const handleUpdateUser = (user) => {
+		api.editUserInfo(user)
+		.then((update) => {
+			setCurrentUser({
+				...currentUser,
+				name: update.name,
+				email: update.email,
+			});
 			setIsSaveSuccess(true);
 		})
 		.catch((error) => {

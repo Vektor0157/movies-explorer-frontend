@@ -3,7 +3,7 @@ import './Login.css';
 import AuthProfile from '../AuthProfile/AuthProfile';
 import Input from '../Input/Input';
 
-function Login({ handleLogin, errorMessageAuth }) {
+function Login({ onLogin, errorMessageAuth }) {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [isFormValid, setIsFormValid] = useState(false);
@@ -25,13 +25,13 @@ function Login({ handleLogin, errorMessageAuth }) {
 	const handleSubmit = (evt) => {
 		evt.preventDefault();
 		if (isFormValid) {
-			handleLogin(email, password);
+			onLogin(email, password);
 		}
 	};
 
 	return (
 		<main className='login'>
-			<AuthProfile title="Рады видеть!" name="login" ariaLabel="Войти" handleSubmit={handleSubmit} gray="Ещё не зарегистрированы?" blue="Регистрация" link="/signup" errorMessageAuth={errorMessageAuth} isActive={isFormValid} handleLogin={handleLogin}>
+			<AuthProfile title="Рады видеть!" name="login" ariaLabel="Войти" handleSubmit={handleSubmit} gray="Ещё не зарегистрированы?" blue="Регистрация" link="/signup" errorMessageAuth={errorMessageAuth} isActive={isFormValid} onLogin={onLogin}>
 				<Input id="email" name="email" className="login__input" type="email" label="Email" required value={email} onChange={handleChangeEmail} placeholder="Email" error={email === '' ? 'Введите email' : ''}/>
 				<Input id="password" className="login__input" type="password" label="Пароль" name="password" minLength="8" maxLength="20" required value={password} onChange={handleChangePassword} placeholder="Пароль" error={password === '' ? 'Введите пароль' : ''} autoComplete="current-password"/>
 			</AuthProfile>
