@@ -1,33 +1,38 @@
 import React, { useState } from 'react';
 import './Login.css';
-import AuthProfile from '../AuthProfile/AuthProfile';
-import Input from '../Input/Input';
+import Sign from '../Sign/Sign';
+import isEmail from 'validator/es/lib/isEmail';
 
-function Login({ handleLogin, errorMessageAuth }) {
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
+function Login({ onLogin }) {
 
-	const handleChangeEmail = (e) => {
-		setEmail(e.target.value);
+	const [formValue, setFormValue] = useState({})
+	const [errors, setErrors] = useState({});
+	const [isValid, setIsValid] = useState(false);
+
+	function handleChange(e) {
+		const target = e.target;
+		const name = target.name;
+		const value = target.value;
+		if (name === 'email') {
+			if (!isEmail(value)) {
+				target.setCustomValidity('Некорректый адрес почты');
+			} else {
+				target.setCustomValidity('');
+			}
+		}
+		setFormValue({ ...formValue, [name]: value });
+		setErrors({ ...errors, [name]: target.validationMessage });
+		setIsValid(target.closest('form').checkValidity());
 	};
 
-	const handleChangePassword = (e) => {
-		setPassword(e.target.value);
+	function handleSubmit(e) {
+		e.preventDefault();
+		onLogin(formValue);
 	};
 
-	const handleSubmit = (evt) => {
-		evt.preventDefault();
-		handleLogin(email, password);
-	};
-
-	const isFormValid = email !== '' && password !== '';
-	
 	return (
 		<main className='login'>
-			<AuthProfile title="Рады видеть!" name="login" isLoading={true} ariaLabel="Войти" onSubmit={handleSubmit} gray="Ещё не зарегистрированы?" blue="Регистрация" link="/signup" errorMessageAuth={errorMessageAuth} isActive={isFormValid}>
-				<Input id="email" name="email" className="login__input" type="email" label="Email" required value={email} onChange={handleChangeEmail} placeholder="Email" error={email === '' ? 'Введите email' : ''}/>
-				<Input id="password" className="login__input" type="password" label="Пароль" name="password" minLength="8" maxLength="20" required value={password} onChange={handleChangePassword} placeholder="Пароль" error={password === '' ? 'Введите пароль' : ''} autoComplete="current-password"/>
-			</AuthProfile>
+			<Sign title={'Рады видеть!'} buttonText={'Войти'} text={'Ещё не зарегистрированы?'} linkText={'Регистрация'} link={'./sign-up'} class={'sign__set login__set'} email={formValue.email} password={formValue.password} isValid={isValid} errors={errors} onSubmit={handleSubmit} onChange={handleChange}></Sign>
 		</main>
 	);
 }

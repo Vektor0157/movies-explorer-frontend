@@ -1,139 +1,60 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
 import './Profile.css';
+import isEmail from 'validator/es/lib/isEmail';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 
-function Profile({ onUpdateUser, onLogout }) {
-  const currentUser = useContext(CurrentUserContext);
-  const [values, setValues] = useState({});
-  const [errors, setErrors] = useState({});
-  const [formValue, setFormValue] = useState({})
-  const [isValid, setIsValid] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [isButtonActive, setIsButtonActive] = useState(false);
-  const [isDataChanged, setIsDataChanged] = useState(false);
-  const [displayName, setDisplayName] = useState('');
-  const [isSaveSuccess, setIsSaveSuccess] = useState(false);
-  const [submitError, setSubmitError] = useState('');
+function Profile({ onSignOut, onUpdateUser }) {
+	const currentUser = useContext(CurrentUserContext);
 
-  useEffect(() => {
-    if (currentUser) {
-      setDisplayName(currentUser.name);
-      setValues({
-        name: currentUser.name,
-        email: currentUser.email,
-      });
-    }
-  }, [currentUser]);
+	const [formValue, setFormValue] = useState({})
+	const [errors, setErrors] = useState({});
+	const [isValid, setIsValid] = useState(false);
 
-  useEffect(() => {
-    if (currentUser) {
-      setIsDataChanged(values.name !== currentUser.name || values.email !== currentUser.email);
-    }
-  }, [currentUser, values.name, values.email]);
+	function handleChange(e) {
+		const target = e.target;
+		const name = target.name;
+		const value = target.value;
+		if (name === 'email') {
+			if (!isEmail(value)) {
+				target.setCustomValidity('Некорректый адрес почты');
+			} else {
+				target.setCustomValidity('');
+			}
+		}
+		setFormValue({ ...formValue, [name]: value });
+		setErrors({ ...errors, [name]: target.validationMessage });
+		setIsValid(target.closest('form').checkValidity());
+	};
 
-  useEffect(() => {
-    setIsButtonActive(isValid && values.name && values.email && isDataChanged);
-  }, [isValid, values.name, values.email, isDataChanged]);
+	function handleSubmit(e) {
+		e.preventDefault();
+		if ( currentUser.name !== formValue.name && currentUser.email !== formValue.email) {
+			onUpdateUser(formValue.name, formValue.email);
+		};
+	};
 
-  const titleText = currentUser ? `Привет, ${displayName}!` : 'Привет';
-
-  function handleChange(e) {
-	const target = e.target;
-	const name = target.name;
-	const value = target.value;
-	if (name === 'email') {
-	  const isValidEmail = /\S+@\S+\.\S+/.test(value);
-	  if (!isValidEmail) {
-		 target.setCustomValidity('Некорректный адрес почты');
-	  } else {
-		 target.setCustomValidity('');
-	  }
-	}
-	setFormValue({ ...formValue, [name]: value });
-	setErrors({ ...errors, [name]: target.validationMessage });
-	setIsValid(target.closest('form').checkValidity());
- };
-
-  const handleEditClick = () => {
-    setIsEditing(true);
-    setIsSaveSuccess(false);
-    setSubmitError('');
-  };
-
-  const handleSaveClick = (evt) => {
-    evt.preventDefault();
-    if (currentUser.name !== formValue.name && currentUser.email !== formValue.email) {
-      onUpdateUser(formValue.name, formValue.email);
-    }
-  };
-
-  useEffect(() => {
-    setIsButtonActive(isValid && values.name && values.email);
-  }, [isValid, values.name, values.email]);
-
-  const handleLogoutClick = () => {
-    onLogout();
-  };
-
-  return (
-    <main className='profile'>
-      <h1 className='profile__title'>{titleText}</h1>
-      <form className='profile__form' name='profile__form' onSubmit={handleSaveClick}>
-        <div className='profile__input-container'>
-          <label className='profile__placeholder'>Имя</label>
-          <input
-            id='name'
-            name='name'
-            className='profile__input'
-            type='text'
-            minLength='2'
-				maxLength="40"
-            required
-            value={values.name || ''}
-            onChange={handleChange}
-            disabled={!isEditing}
-				defaultValue={currentUser.name}
-          />
-        </div>
-        {errors.name && <span className='profile__error'>{errors.name}</span>}
-        <div className='profile__separator'></div>
-        <div className='profile__input-container'>
-          <label className='profile__placeholder'>Email</label>
-          <input
-            id='email'
-            name='email'
-            className='profile__input'
-            type='email'
-            required
-				minLength="2"
-            maxLength="30"
-            value={values.email || ''}
-            onChange={handleChange}
-            disabled={!isEditing}
-				defaultValue={currentUser.email}
-          />
-        </div>
-        {errors.email && <span className='profile__error'>{errors.email}</span>}
-        <div className='profile__messages-container'>
-          {submitError && <span className='profile__error-submit'>{submitError}</span>}
-          {isSaveSuccess && <span className='profile__success'>Профиль успешно сохранен!</span>}
-        </div>
-        {isEditing ? (
-          <button className={`profile__submit ${isButtonActive ? '' : 'profile__submit_inactive'}`} type='button' onClick={handleSaveClick}>
-            Сохранить
-          </button>
-        ) : (
-          <button className='profile__edit' type='button' onClick={handleEditClick}>
-            Редактировать
-          </button>
-        )}
-      </form>
-      <Link className='profile__link' to='/' onClick={handleLogoutClick}>
-        Выйти из аккаунта
-      </Link>
-    </main>
-  );
+	return (
+		<main className='profile'>
+			<h1 className='profile__title'>Привет, {currentUser.name}!</h1>
+			<form className='profile__form'>
+				<div className='profile__info profile__info-top'>
+					<label className='profile__placeholder'>Имя</label>
+					<input className='profile__input profile__name-input form__name' name="name" id="name-input" type="text" size="15" minLength="2" maxLength="40" required defaultValue={currentUser.name} onChange={handleChange}/>
+				</div>
+				<span className={`sign__input-error ${errors.name ? 'sign__input-error-display' : ''}`}>{errors.name}</span>
+				<div className='profile__info'>
+					<label className='profile__placeholder'>Email</label>
+					<input className='profile__input profile__email-input form__email' name="email" id="email-input" type="email" autoComplete="email" size="30" minLength="2" maxLength="30" required defaultValue={currentUser.email} onChange={handleChange}/>
+				</div>
+				<span className={`sign__input-error ${errors.email ? 'sign__input-error-display' : ''}`}>{errors.email}</span>
+			</form>
+			<button className={`profile__button-change button__hover ${isValid && (formValue.name !== currentUser.name || formValue.email !== currentUser.email) ? "" : "sign__button_disabled" }`}
+				type='submit'
+				disabled={ !isValid && (formValue.name === currentUser.name || formValue.email === currentUser.email)} onClick={handleSubmit}>Редактировать
+			</button>
+			<button className='profile__button-exit button__hover' type='button' onClick={onSignOut}>Выйти из аккаунта</button>
+		</main>
+	);
 }
 
 export default Profile;

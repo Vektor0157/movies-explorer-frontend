@@ -47,25 +47,26 @@ class Api {
 		.then((res) => this._checkData(res));
 	}
 
-	createSavedMovie({trailerLink, movieId, country, director, duration, description, year, nameRU, nameEN}) {
+	createSavedMovie(data) {
 		return fetch(`${this._baseUrl}/movies`, {
 			method: 'POST',
+			credentials: "include",
 			headers: {
 				'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
-				image: `https://api.nomoreparties.co${movieId.image.url}`,
-				thumbnail: `https://api.nomoreparties.co${movieId.image.formats.thumbnail.url}`,
-				trailerLink,
-				movieId,
-				country,
-				director,
-				duration,
-				description,
-				year,
-				nameRU,
-				nameEN,
+				country: data.country,
+				director: data.director,
+				duration: data.duration,
+				year: data.year,
+				description: data.description,
+				image: data.image,
+				trailerLink: data.trailerLink,
+				thumbnail: data.thumbnail,
+				movieId: data.movieId,
+				nameRU: data.nameRU,
+				nameEN: data.nameEN
 			}),
 		})
 		.then((res) => this._checkData(res));

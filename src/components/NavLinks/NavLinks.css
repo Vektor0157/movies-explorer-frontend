@@ -1,0 +1,39 @@
+.nav-links {
+	display: flex;
+	justify-content: flex-end;
+	margin: 0;
+	padding: 0;
+ }
+ .nav-links__register {
+	margin: 8px 0 0 0;
+	padding: 0;
+	color: #fff;
+	text-align: right;
+	font-size: 12px;
+	font-weight: 500;
+	line-height: 16px;
+	text-decoration: none;
+ }
+ .nav-links__login {
+	border-radius: 3px;
+	background: #3ddc84;
+	color: #000;
+	font-size: 12px;
+	font-weight: 500;
+	line-height: 16px;
+	margin: 0 0 0 30px;
+	padding: 8px 20px;
+	text-decoration: none;
+ }
+ @media screen and (max-width: 340px) {
+	.nav-links__register {
+	  margin: 5px 0 0 0;
+	  font-size: 10px;
+	}
+	.nav-links__login {
+	  font-size: 10px;
+	  margin: 0 0 0 14px;
+	  padding: 5px 12px;
+	}
+ }
+

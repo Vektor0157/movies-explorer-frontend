@@ -1,0 +1,78 @@
+.cardlist {
+	margin: 80px auto 70px auto;
+	max-width: 1140px;
+	padding: 0 70px;
+	display: flex;
+	flex-direction: column;
+ }
+ .cardlist_type_saved-movies {
+	padding-bottom: 230px;
+ }
+ .cardlist__elements {
+	margin: 0 auto 60px auto;
+	display: grid;
+	grid-template-columns: repeat(3, 360px);
+	grid-auto-flow: row;
+	column-gap: 32px;
+	row-gap: 32px;
+	padding: 0px;
+	box-sizing: border-box;
+	justify-content: center;
+	justify-items: center;
+ }
+ .cardlist__button-more {
+	margin: 0;
+	background-color: rgba(47, 47, 47, 1);
+	border: none;
+	border-radius: 6px;
+	color: #fff;
+	text-align: center;
+	font-size: 12px;
+	font-weight: 500;
+	line-height: normal;
+	width: 100%;
+	height: 36px;
+	cursor: pointer;
+	transition: opacity 1s linear 0.1s;
+ }
+ .cardlist__button-more:hover {
+	opacity: 0.8;
+ }
+ .cardlist__text {
+	margin: 0 auto 0 0;
+	align-self: start;
+	padding: 0;
+	font-weight: 400;
+	font-size: 18px;
+	line-height: 1.11;
+	color: #A0A0A0;
+ }
+ 
+ @media screen and (max-width: 1250px) {
+	.cardlist {
+	  margin: 70px auto 70px auto;
+	  padding: 0 30px;
+	}
+	.cardlist__elements {
+	  grid-template-columns: repeat(2, 342px);
+	  grid-auto-flow: row;
+	  column-gap: 24px;
+	  row-gap: 35px;
+	  justify-content: space-around;
+	}
+	.cardlist__button-more {
+	  margin: 20px 0 0 0;
+	}
+ }
+ @media screen and (max-width: 750px) {
+	.cardlist__elements {
+	  grid-template-columns: repeat(1, 300px);
+	  grid-template-rows: auto;
+	  row-gap: 16px;
+	}
+	.cardlist {
+	  margin: 40px auto 70px auto;
+	  padding: 0 10px;
+	}
+ }
+ 

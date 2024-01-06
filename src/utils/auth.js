@@ -1,6 +1,6 @@
 export const BASE_URL = 'https://api.vmovies.nomoredomainsmonster.ru';
 
-const checkData = (res) => {
+function checkData(res) {
 	if (!res.ok) {
 		return Promise.reject(`Ошибка: ${res.status}`);
 	}
@@ -34,7 +34,7 @@ export const login = (data) => {
 	}).then(checkData)
 };
 
-export const checkinValidityToken = (token) => {
+export const getContent = (token) => {
 	return fetch(`${BASE_URL}/users/me`, {
 		method: 'GET',
 		headers: {
