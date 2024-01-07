@@ -21,7 +21,6 @@ class Api {
 
 	getUserInfo() {
 		return fetch(`${this.baseUrl}/users/me`, {
-			method: 'GET',
 			headers:this._getHeaders(),
 		})
 		.then(this._checkData);
