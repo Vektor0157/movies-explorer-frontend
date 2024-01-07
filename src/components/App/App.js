@@ -66,7 +66,7 @@ function App() {
 
 	const handleGetAllMovies = (preloader) => {
 	preloader(true);
-	apiMovies.getSearchMovies()
+	apiMovies.getMovies()
 		.then((data) => {
 			setMovies(data);
 			localStorage.setItem("arrayMovies", JSON.stringify(data));
