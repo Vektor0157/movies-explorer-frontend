@@ -12,13 +12,12 @@ class Api {
 
 	getUserInfo() {
 		return fetch(`${this._baseUrl}/users/me`, {
-			method: 'GET',
 			headers: {
 				'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
 				'Content-Type': 'application/json'
 			}
 		})
-		.then((res) => this._checkData(res));
+		.then(this._checkData);
 	}
 
 	editUserInfo(user) {
@@ -34,7 +33,7 @@ class Api {
 				email: user.email,
 			})
 		})
-		.then((res) => this._checkData(res));
+		.then(this._checkData);
 	}
 
 	getSavedMovies() {
@@ -45,7 +44,7 @@ class Api {
 				'Content-Type': 'application/json'
 			}
 		})
-		.then((res) => this._checkData(res));
+		.then(this._checkData);
 	}
 
 	createSavedMovie(data) {
@@ -70,7 +69,7 @@ class Api {
 				nameEN: data.nameEN
 			}),
 		})
-		.then((res) => this._checkData(res));
+		.then(this._checkData);
 	}
 
 	deleteSaved(movieId) {
@@ -81,7 +80,7 @@ class Api {
 				'Content-Type': 'application/json'
 			}
 		})
-		.then((res) => this._checkData(res));
+		.then(this._checkData);
 	}
 }
 
