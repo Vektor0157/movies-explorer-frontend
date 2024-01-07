@@ -24,20 +24,19 @@ class Api {
 			method: 'GET',
 			headers:this._getHeaders(),
 		})
-		.then((res) => this._checkData(res));
+		.then(this._checkData);
 	}
 
 	editUserInfo(user) {
 		return fetch(`${this._baseUrl}/users/me`, {
 			method: 'PATCH',
-			credentials: "include",
 			headers:this._getHeaders(),
 			body: JSON.stringify({
 				name: user.name,
 				email: user.email,
 			})
 		})
-		.then((res) => this._checkData(res));
+		.then(this._checkData);
 	}
 
 	getSavedMovies() {
@@ -45,13 +44,12 @@ class Api {
 			method: 'GET',
 			headers:this._getHeaders(),
 		})
-		.then((res) => this._checkData(res));
+		.then(this._checkData);
 	}
 
 	createSavedMovie(data) {
 		return fetch(`${this._baseUrl}/movies`, {
 			method: 'POST',
-			credentials: "include",
 			headers: this._getHeaders(),
 			body: JSON.stringify({
 				country: data.country,
@@ -67,7 +65,7 @@ class Api {
 				nameEN: data.nameEN
 			}),
 		})
-		.then((res) => this._checkData(res));
+		.then(this._checkData);
 	}
 
 	deleteSaved(movieId) {
@@ -75,7 +73,7 @@ class Api {
 			method: 'DELETE',
 			headers:this._getHeaders(),
 		})
-		.then((res) => this._checkData(res));
+		.then(this._checkData);
 	}
 }
 

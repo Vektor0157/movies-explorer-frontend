@@ -40,10 +40,7 @@ function App() {
 		if (isLoggedIn) {
 			api.getUserInfo()
 			.then((currentUser) => {
-				setCurrentUser({
-					name: currentUser.data.name,
-					email: currentUser.data.email,
-				})
+				setCurrentUser(currentUser.data)
 			})
 			.catch((err) => err);
 			api.getSavedMovies()
