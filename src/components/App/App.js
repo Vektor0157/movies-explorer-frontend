@@ -41,8 +41,8 @@ function App() {
 			api.getUserInfo()
 			.then((currentUser) => {
 				setCurrentUser({
-					name: currentUser.name,
-					email: currentUser.email,
+					name: currentUser.data.name,
+					email: currentUser.data.email,
 				})
 			})
 			.catch((err) => err);
