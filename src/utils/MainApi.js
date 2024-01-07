@@ -11,13 +11,18 @@ class Api {
 		return res.json();
 	}
 
+	_getHeaders() {
+		const jwt = localStorage.getItem('jwt');
+		return {
+			'Authorization': `Bearer ${jwt}`,
+			"Content-Type": "application/json",
+		};
+	}
+
 	getUserInfo() {
 		return fetch(`${this._baseUrl}/users/me`, {
 			method: 'GET',
-			headers: {
-				'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
-				"Content-Type": "application/json"
-			}
+			headers:this._getHeaders(),
 		})
 		.then((res) => this._checkData(res));
 	}
@@ -26,10 +31,7 @@ class Api {
 		return fetch(`${this._baseUrl}/users/me`, {
 			method: 'PATCH',
 			credentials: "include",
-			headers: {
-				'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
-				"Content-Type": "application/json"
-			},
+			headers:this._getHeaders(),
 			body: JSON.stringify({
 				name: user.name,
 				email: user.email,
@@ -41,10 +43,7 @@ class Api {
 	getSavedMovies() {
 		return fetch(`${this._baseUrl}/movies`, {
 			method: 'GET',
-			headers: {
-				'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
-				"Content-Type": "application/json"
-			}
+			headers:this._getHeaders(),
 		})
 		.then((res) => this._checkData(res));
 	}
@@ -53,10 +52,7 @@ class Api {
 		return fetch(`${this._baseUrl}/movies`, {
 			method: 'POST',
 			credentials: "include",
-			headers: {
-				'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
-				"Content-Type": "application/json"
-			},
+			headers: this._getHeaders(),
 			body: JSON.stringify({
 				country: data.country,
 				director: data.director,
@@ -77,10 +73,7 @@ class Api {
 	deleteSaved(movieId) {
 		return fetch(`${this._baseUrl}/movies/${movieId}`, {
 			method: 'DELETE',
-			headers: {
-				'authorization': `Bearer ${localStorage.getItem('jwt')}`,
-				"Content-Type": "application/json"
-			}
+			headers:this._getHeaders(),
 		})
 		.then((res) => this._checkData(res));
 	}

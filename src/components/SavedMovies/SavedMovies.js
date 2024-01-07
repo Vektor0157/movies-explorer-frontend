@@ -62,19 +62,8 @@ function SavedMovies({ savedMovies, handleDeleteMovie }) {
 
   return (
     <main className="movies">
-      <SearchForm
-        findNewMovies={findNewMovies}
-        isShorts={isShortsSavedMovies}
-        setIsShorts={setIsShortsSavedMovies}
-        isSavedMovies={isSavedMovies}
-      />
-      <MoviesCardList
-        savedMovies={filterMovies}
-        searchWord={searchWordSavedMovies}
-        isSavedMovies={isSavedMovies}
-        handleIsSavedToogle={handleOnClick}
-        checkIsSaved={checkIsSaved}
-      />
+      <SearchForm findNewMovies={findNewMovies} isShorts={isShortsSavedMovies} setIsShorts={setIsShortsSavedMovies} isSavedMovies={isSavedMovies}/>
+      <MoviesCardList savedMovies={filterMovies} searchWord={searchWordSavedMovies} isSavedMovies={isSavedMovies} handleIsSavedToogle={handleOnClick} checkIsSaved={checkIsSaved}/>
     </main>
   );
 };

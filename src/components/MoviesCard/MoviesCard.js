@@ -30,34 +30,21 @@ const SURL = 'https://api.nomoreparties.co'
 
 	return (
 		<>
-		<article className='card'>
-			 <a className='card__link'
-				  href={movie.trailerLink}
-				  target="_blank"
-				  rel="noreferrer">
-				  <div className='card__info'>
+			<article className='card'>
+				<a className='card__link' href={movie.trailerLink} target="_blank" rel="noreferrer">
+					<div className='card__info'>
 						<h2 className='card__title'>{movie.nameRU}</h2>
 						<p className='card__duration'>{formatTime(movie.duration)}</p>
-				  </div>
-				  <img
-						className='card__image'
-						alt={movie.nameRU}
-						src={
-							 isSavedMovies
-								  ? movie.image
-								  : SURL + movie.image.url} />
-			 </a>
-			 {pathname === '/movies' ? (
-				  <button type="button" className={`card__button card__button_type${isSaved ? '_is-saved' : '_save'}`} onClick={handleOnClick}>{isSaved ? "" : "Сохранить"}</button>
-			 ) :
-				  (
-						<button
-							 onClick={handleOnClick}
-							 className="card__button card__button_type_delete"
-						></button>
-				  )}
-		</article>
-  </>
+					</div>
+					<img className='card__image' alt={movie.nameRU} src={isSavedMovies ? movie.image : SURL + movie.image.url} />
+				</a>
+				{pathname === '/movies' ? (
+					<button type="button" className={`card__button card__button_type${isSaved ? '_is-saved' : '_save'}`} onClick={handleOnClick}>{isSaved ? "" : "Сохранить"}</button>
+				) : (
+					<button onClick={handleOnClick} className="card__button card__button_type_delete"></button>
+				)}
+			</article>
+		</>
 	);
 }
 

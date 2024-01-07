@@ -15,7 +15,6 @@ function SearchForm({
   const [errors, setErrors] = useState({});
   const [isValid, setIsValid] = useState(false);
 
-  // данные формы и валидация
   const onChange = (event) => {
     const { name, value, validationMessage } = event.target;
 
@@ -36,7 +35,6 @@ function SearchForm({
     }
   };
 
-  // функция нажатия на кнопку ПОИСК
   const handleSubmit = (e) => {
     e.preventDefault();
     if (values.movie.length === 0) {
@@ -49,7 +47,6 @@ function SearchForm({
     findNewMovies(values.movie, setErrors);
   };
 
-  // // изменение состояния чекбокса
   const handleClickCheckbox = (e) => {
     if (e.target.checked) {
       setIsShorts(true);

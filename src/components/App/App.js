@@ -41,7 +41,11 @@ function App() {
 		if (isLoggedIn) {
 			api.getUserInfo()
 			.then((currentUser) => {
-				setCurrentUser(currentUser.data);
+				setCurrentUser({
+					...currentUser,
+					name: currentUser.name,
+					email: currentUser.email,
+				})
 			})
 			.catch((err) => err);
 			api.getSavedMovies()
@@ -114,8 +118,8 @@ function App() {
 		localStorage.removeItem('isShortsSavedMovies');
 	}
 
-	function handleUpdateUser(user) {
-		api.editUserInfo(user)
+	function handleUpdateUser(name, email) {
+		api.editUserInfo(name, email)
 		.then((update) => {
 			setCurrentUser({
 				...currentUser,
@@ -163,26 +167,26 @@ function App() {
 
 	return (
 		<CurrentUserContext.Provider value={currentUser}>
-			<div className='page'>
-			{pathname === '/' || pathname === '/saved-movies' || pathname === '/movies' || pathname === '/profile' ?
-				<Header isOpen={isNavPopupOpen} onClose={handleCloseNavPopup} onEditNavPopup={handleEditNavBarClick} isLoggedIn={isLoggedIn} /> : ''}
+			<div className='app'>
+				{pathname === '/' || pathname === '/saved-movies' || pathname === '/movies' || pathname === '/profile' ?
+				<Header isOpen={isNavPopupOpen} onClose={handleCloseNavPopup} onEditNavPopup={handleEditNavBarClick} isLoggedIn={isLoggedIn}/> : ''}
 					<Routes>
 						<Route path='/' element={<Main />} />
-						<Route path='/movies' element={
-							<ProtectedRouteElement element={Movies} movies={movies} getMovies={handleGetAllMovies} setMovies={setMovies} isLoggedIn={isLoggedIn} savedMovies={savedMovies} handleSaveMovie={handleSaveMovie} handleDeleteMovie={handleDeleteMovie}/>} 
+						<Route path='/movies/*' element={
+							<ProtectedRouteElement element={Movies} movies={movies} getMovies={handleGetAllMovies} setMovies={setMovies} isLoggedIn={isLoggedIn} savedMovies={savedMovies} handleSaveMovie={handleSaveMovie} handleDeleteMovie={handleDeleteMovie}/>}
 						/>
-						<Route path='/saved-movies' element={
-							<ProtectedRouteElement element={SavedMovies} isLoggedIn={isLoggedIn} savedMovies={savedMovies} handleDeleteMovie={handleDeleteMovie}/>} 
+						<Route path='/saved-movies/*' element={
+							<ProtectedRouteElement element={SavedMovies} isLoggedIn={isLoggedIn} savedMovies={savedMovies} handleDeleteMovie={handleDeleteMovie}/>}
 						/>
-						<Route path='/profile' element={
-							<ProtectedRouteElement element={Profile} isLoggedIn={isLoggedIn} onSignOut={signOut} onUpdateUser={handleUpdateUser}/>} 
+						<Route path='/profile/*' element={
+							<ProtectedRouteElement element={Profile} isLoggedIn={isLoggedIn} onSignOut={signOut} onUpdateUser={handleUpdateUser}/>}
 						/>
 						<Route path='*' element={<NotFound />} />
-						<Route path="/sign-up" element={isLoggedIn ? <Navigate to='/movies' /> : <Register onRegister={handleRegisterUser}/>} />
-						<Route path="/sign-in" element={isLoggedIn ? <Navigate to='/movies' /> : <Login onLogin={handleAuthorizationUser}/>} />
+						<Route path="/sign-up" element={isLoggedIn ? <Navigate to='/movies' /> : <Register onRegister={handleRegisterUser}/>}/>
+						<Route path="/sign-in" element={isLoggedIn ? <Navigate to='/movies' /> : <Login onLogin={handleAuthorizationUser}/>}/>
 					</Routes>
 					{pathname === '/' || pathname === '/saved-movies' || pathname === '/movies' ?
-					<Footer /> : ''}
+				<Footer /> : ''}
 			</div>
 		</CurrentUserContext.Provider>
 	);
