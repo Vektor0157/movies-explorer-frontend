@@ -10,7 +10,6 @@ import Login from '../Login/Login';
 import Register from '../Register/Register';
 import Profile from '../Profile/Profile';
 import NotFound from '../NotFound/NotFound';
-import ProtectedRouteElement from '../ProtectedRoute';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 import * as auth from '../../utils/auth';
 import api from '../../utils/MainApi';
@@ -167,29 +166,30 @@ function App() {
 
 	return (
 		<CurrentUserContext.Provider value={currentUser}>
-			<div className='app'>
-				{pathname === '/' || pathname === '/saved-movies' || pathname === '/movies' || pathname === '/profile' ?
-				<Header isOpen={isNavPopupOpen} onClose={handleCloseNavPopup} onEditNavPopup={handleEditNavBarClick} isLoggedIn={isLoggedIn}/> : ''}
-					<Routes>
-						<Route path='/' element={<Main />} />
-						<Route path='/movies/*' element={
-							<ProtectedRouteElement element={Movies} movies={movies} getMovies={handleGetAllMovies} setMovies={setMovies} isLoggedIn={isLoggedIn} savedMovies={savedMovies} handleSaveMovie={handleSaveMovie} handleDeleteMovie={handleDeleteMovie}/>}
-						/>
-						<Route path='/saved-movies/*' element={
-							<ProtectedRouteElement element={SavedMovies} isLoggedIn={isLoggedIn} savedMovies={savedMovies} handleDeleteMovie={handleDeleteMovie}/>}
-						/>
-						<Route path='/profile/*' element={
-							<ProtectedRouteElement element={Profile} isLoggedIn={isLoggedIn} onSignOut={signOut} onUpdateUser={handleUpdateUser}/>}
-						/>
-						<Route path='*' element={<NotFound />} />
-						<Route path="/sign-up" element={isLoggedIn ? <Navigate to='/movies' /> : <Register onRegister={handleRegisterUser}/>}/>
-						<Route path="/sign-in" element={isLoggedIn ? <Navigate to='/movies' /> : <Login onLogin={handleAuthorizationUser}/>}/>
-					</Routes>
-					{pathname === '/' || pathname === '/saved-movies' || pathname === '/movies' ?
-				<Footer /> : ''}
-			</div>
+		  <div className="app">
+			 {(pathname === '/' || pathname === '/saved-movies' || pathname === '/movies' || pathname === '/profile') && (
+				<Header isOpen={isNavPopupOpen} onClose={handleCloseNavPopup} onEditNavPopup={handleEditNavBarClick} isLoggedIn={isLoggedIn} />
+			 )}
+			 <Routes>
+				<Route path="/" element={<Main />} />
+				{isLoggedIn ? (
+				  <>
+					 <Route path="/movies" element={<Movies movies={movies} getMovies={handleGetAllMovies} setMovies={setMovies} isLoggedIn={isLoggedIn} savedMovies={savedMovies} handleSaveMovie={handleSaveMovie} handleDeleteMovie={handleDeleteMovie} />} />
+					 <Route path="/saved-movies" element={<SavedMovies isLoggedIn={isLoggedIn} savedMovies={savedMovies} handleDeleteMovie={handleDeleteMovie} />} />
+					 <Route path="/profile" element={<Profile isLoggedIn={isLoggedIn} onSignOut={signOut} onUpdateUser={handleUpdateUser} />} />
+				  </>
+				) : (
+				  <>
+					 <Route path="/sign-up" element={isLoggedIn ? <Navigate to="/movies" /> : <Register onRegister={handleRegisterUser} />} />
+					 <Route path="/sign-in" element={isLoggedIn ? <Navigate to="/movies" /> : <Login onLogin={handleAuthorizationUser} />} />
+				  </>
+				)}
+				<Route path="*" element={<NotFound />} />
+			 </Routes>
+			 {(pathname === '/' || pathname === '/saved-movies' || pathname === '/movies') && <Footer />}
+		  </div>
 		</CurrentUserContext.Provider>
-	);
+	 );
 }
 
 export default App;
