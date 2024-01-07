@@ -1,7 +1,7 @@
 class MoviesApi {
 	constructor(options) {
-		this._baseUrl = options.baseUrl;
-		this._headers = options.headers;
+		this.baseUrl = options.baseUrl;
+		this.headers = options.headers;
 	}
 
 	_checkData (res) {
@@ -20,8 +20,8 @@ class MoviesApi {
 	}
 
 	getMovies() {
-		return fetch(this._baseUrl, {
-			headers: this._headers,
+		return fetch(`${this.baseUrl}/beatfilm-movies`, {
+			headers: this.headers,
 		})
 		.then((res) => this._checkData(res));
 	}

@@ -1,6 +1,6 @@
 class Api {
 	constructor(options) {
-		this._baseUrl = options.baseUrl;
+		this.baseUrl = options.baseUrl;
 		this.headers = options.headers;
 	}
 
@@ -12,35 +12,36 @@ class Api {
 	}
 
 	_getHeaders() {
-		const token = localStorage.getItem('jwt');
+		const jwt = localStorage.getItem('jwt');
 		return {
-			'Authorization': `Bearer ${token}`,
+			'Authorization': `Bearer ${jwt}`,
 			"Content-Type": "application/json",
 		};
 	}
 
 	getUserInfo() {
-		return fetch(`${this._baseUrl}/users/me`, {
+		return fetch(`${this.baseUrl}/users/me`, {
 			method: 'GET',
 			headers:this._getHeaders(),
 		})
 		.then(this._checkData);
 	}
 
-	editUserInfo(user) {
-		return fetch(`${this._baseUrl}/users/me`, {
+	editUserInfo(name, email) {
+		return fetch(`${this.baseUrl}/users/me`, {
 			method: 'PATCH',
+			credentials: "include",
 			headers:this._getHeaders(),
 			body: JSON.stringify({
-				name: user.name,
-				email: user.email,
+				name: name,
+				email: email,
 			})
 		})
 		.then(this._checkData);
 	}
 
 	getSavedMovies() {
-		return fetch(`${this._baseUrl}/movies`, {
+		return fetch(`${this.baseUrl}/movies`, {
 			method: 'GET',
 			headers:this._getHeaders(),
 		})
@@ -48,8 +49,9 @@ class Api {
 	}
 
 	createSavedMovie(data) {
-		return fetch(`${this._baseUrl}/movies`, {
+		return fetch(`${this.baseUrl}/movies`, {
 			method: 'POST',
+			credentials: "include",
 			headers: this._getHeaders(),
 			body: JSON.stringify({
 				country: data.country,
@@ -69,7 +71,7 @@ class Api {
 	}
 
 	deleteSaved(movieId) {
-		return fetch(`${this._baseUrl}/movies/${movieId}`, {
+		return fetch(`${this.baseUrl}/movies/${movieId}`, {
 			method: 'DELETE',
 			headers:this._getHeaders(),
 		})
