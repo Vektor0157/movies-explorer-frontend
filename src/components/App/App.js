@@ -168,13 +168,13 @@ function App() {
 				<Header isOpen={isNavPopupOpen} onClose={handleCloseNavPopup} onEditNavPopup={handleEditNavBarClick} isLoggedIn={isLoggedIn} /> : ''}
 					<Routes>
 						<Route path='/' element={<Main />} />
-						<Route path='/movies/*' element={
+						<Route path='/movies' element={
 							<ProtectedRouteElement element={Movies} movies={movies} getMovies={handleGetAllMovies} setMovies={setMovies} isLoggedIn={isLoggedIn} savedMovies={savedMovies} handleSaveMovie={handleSaveMovie} handleDeleteMovie={handleDeleteMovie}/>} 
 						/>
-						<Route path='/saved-movies/*' element={
+						<Route path='/saved-movies' element={
 							<ProtectedRouteElement element={SavedMovies} isLoggedIn={isLoggedIn} savedMovies={savedMovies} handleDeleteMovie={handleDeleteMovie}/>} 
 						/>
-						<Route path='/profile/*' element={
+						<Route path='/profile' element={
 							<ProtectedRouteElement element={Profile} isLoggedIn={isLoggedIn} onSignOut={signOut} onUpdateUser={handleUpdateUser}/>} 
 						/>
 						<Route path='*' element={<NotFound />} />
