@@ -26,23 +26,38 @@ function MoviesCard({ movie, isSavedMovies, handleIsSavedToogle, checkIsSaved })
 		 return hour ? `${hour}ч ${min}м` : `${min}м`;
 	};
 
+const SURL = 'https://api.nomoreparties.co'
+
 	return (
-		<div className="movie-card">
-			<a href={movie.trailerLink} target="_blank" rel="noopener noreferrer" className='card__link'>
-				<div className='movie-card__content'>
-					<div className='movie-card__description'>
-						<h2 className="movie-card__title">{movie.nameRU}</h2>
-						<p className="movie-card__duration">{(formatTime(movie.duration))}</p>
-					</div>
-					<img className="movie-card__image" src={`https://api.nomoreparties.co${movie.image.url}`} alt={movie.nameRU}/>
-				</div>
-			</a>
-			{pathname === '/movies' ? (
-				<button type="button" className={`movie-card__button movie-card__button_type${isSaved ? '_is-saved' : '_save'}`} onClick={handleOnClick}>{isSaved ? "" : "Сохранить"}</button>
-			) : (
-				<button onClick={handleOnClick} className="movie-card__button movie-card__button-type-delete"></button>
-			)}
-		</div>
+		<>
+		<article className='card'>
+			 <a className='card__link'
+				  href={movie.trailerLink}
+				  target="_blank"
+				  rel="noreferrer">
+				  <div className='card__info'>
+						<h2 className='card__title'>{movie.nameRU}</h2>
+						<p className='card__duration'>{formatTime(movie.duration)}</p>
+				  </div>
+				  <img
+						className='card__image'
+						alt={movie.nameRU}
+						src={
+							 isSavedMovies
+								  ? movie.image
+								  : SURL + movie.image.url} />
+			 </a>
+			 {pathname === '/movies' ? (
+				  <button type="button" className={`card__button card__button_type${isSaved ? '_is-saved' : '_save'}`} onClick={handleOnClick}>{isSaved ? "" : "Сохранить"}</button>
+			 ) :
+				  (
+						<button
+							 onClick={handleOnClick}
+							 className="card__button card__button_type_delete"
+						></button>
+				  )}
+		</article>
+  </>
 	);
 }
 
