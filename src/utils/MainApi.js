@@ -1,6 +1,7 @@
 class Api {
 	constructor(options) {
 		this._baseUrl = options.baseUrl;
+		this.headers = options.headers;
 	}
 
 	_checkData (res) {
@@ -86,6 +87,9 @@ class Api {
 
 const api = new Api({
 	baseUrl: 'https://api.vmovies.nomoredomainsmonster.ru',
+	headers: {
+		"Content-Type": "application/json"
+	}
 });
 
 export default api;
