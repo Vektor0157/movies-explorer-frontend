@@ -5,7 +5,6 @@ import CurrentUserContext from '../../contexts/CurrentUserContext';
 
 function Profile({ onSignOut, onUpdateUser }) {
 	const currentUser = useContext(CurrentUserContext);
-
 	const [formValue, setFormValue] = useState({})
 	const [errors, setErrors] = useState({});
 	const [isValid, setIsValid] = useState(false);
@@ -21,7 +20,6 @@ function Profile({ onSignOut, onUpdateUser }) {
 				target.setCustomValidity('');
 			}
 		}
-
 		setFormValue({ ...formValue, [name]: value });
 		setErrors({ ...errors, [name]: target.validationMessage });
 		setIsValid(target.closest('form').checkValidity());

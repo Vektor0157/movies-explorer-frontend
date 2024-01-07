@@ -41,7 +41,6 @@ function App() {
 			api.getUserInfo()
 			.then((currentUser) => {
 				setCurrentUser({
-					...currentUser,
 					name: currentUser.name,
 					email: currentUser.email,
 				})
