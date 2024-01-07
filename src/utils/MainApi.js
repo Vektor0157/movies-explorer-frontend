@@ -14,7 +14,7 @@ class Api {
 		return fetch(`${this._baseUrl}/users/me`, {
 			headers: {
 				'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
-				'Content-Type': 'application/json'
+				"Content-Type": "application/json"
 			}
 		})
 		.then(this._checkData);
@@ -26,7 +26,7 @@ class Api {
 			credentials: "include",
 			headers: {
 				'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
-				'Content-Type': 'application/json'
+				"Content-Type": "application/json"
 			},
 			body: JSON.stringify({
 				name: user.name,
@@ -41,7 +41,7 @@ class Api {
 			method: 'GET',
 			headers: {
 				'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
-				'Content-Type': 'application/json'
+				"Content-Type": "application/json"
 			}
 		})
 		.then(this._checkData);
@@ -53,7 +53,7 @@ class Api {
 			credentials: "include",
 			headers: {
 				'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
-				'Content-Type': 'application/json'
+				"Content-Type": "application/json"
 			},
 			body: JSON.stringify({
 				country: data.country,
@@ -77,7 +77,7 @@ class Api {
 			method: 'DELETE',
 			headers: {
 				'authorization': `Bearer ${localStorage.getItem('jwt')}`,
-				'Content-Type': 'application/json'
+				"Content-Type": "application/json"
 			}
 		})
 		.then(this._checkData);
@@ -86,9 +86,6 @@ class Api {
 
 const api = new Api({
 	baseUrl: 'https://api.vmovies.nomoredomainsmonster.ru',
-	headers: {
-		'Content-Type': 'application/json'
-	}
 });
 
 export default api;
