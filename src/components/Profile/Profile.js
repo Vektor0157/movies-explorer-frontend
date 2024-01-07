@@ -8,9 +8,7 @@ function Profile({ onSignOut, onUpdateUser }) {
 	const [formValue, setFormValue] = useState({})
 	const [errors, setErrors] = useState({});
 	const [isValid, setIsValid] = useState(false);
-	const [displayName, setDisplayName] = useState('');
-	const titleText = currentUser ? `Привет, ${displayName}!` : 'Привет';
-	
+
 	function handleChange(e) {
 		const target = e.target;
 		const name = target.name;
@@ -22,7 +20,6 @@ function Profile({ onSignOut, onUpdateUser }) {
 				target.setCustomValidity('');
 			}
 		}
-		setDisplayName(currentUser.name);
 		setFormValue({ ...formValue, [name]: value });
 		setErrors({ ...errors, [name]: target.validationMessage });
 		setIsValid(target.closest('form').checkValidity());
@@ -39,7 +36,7 @@ function Profile({ onSignOut, onUpdateUser }) {
 	return (
 		<>
 			<section className='profile'>
-				<h1 className='profile__title'>{titleText}</h1>
+				<h1 className='profile__title'>Привет, {currentUser.name}!</h1>
 				<form className='profile__form'>
 					<div className='profile__info profile__info__top'>
 						<p className='profile__text'>Имя</p>
