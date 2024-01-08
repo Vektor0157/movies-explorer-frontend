@@ -42,7 +42,6 @@ function App() {
 		} else {
 			logOut();
 		}
-	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const handleLogin = (email, password) => {
@@ -134,12 +133,12 @@ function App() {
 			duration: movie.duration,
 			year: movie.year,
 			description: movie.description,
-			image: 'https://api.nomoreparties.co' + movie.image.url,
+			image: `https://api.nomoreparties.co${movie.image.url}`,
 			trailerLink: movie.trailerLink,
-			thumbnail: 'https://api.nomoreparties.co' + movie.image.formats.thumbnail.url,
+			thumbnail: `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`,
 			movieId: movie.id,
 			nameRU: movie.nameRU,
-			nameEN: movie.nameRU,
+			nameEN: movie.nameEN,
 		};
 		setIsConnectionError(false);
 		api.addMovie(movieObject)

@@ -7,7 +7,7 @@ import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import { short } from "../../utils/contants";
 
-const Movies = ({ savedMovies, moviesList, isLoading, onDelete, onSave, isConnectionError, loadAllMovies }) => {
+const Movies = ({ savedMovies, moviesList, isLoading, onDelete, onSave, isConnectionError, loadAllMovies}) => {
 	const [isShort, setIsShort] = useState(
 		localStorage.getItem("isShort") === "true",
 	);
@@ -26,10 +26,11 @@ const Movies = ({ savedMovies, moviesList, isLoading, onDelete, onSave, isConnec
 	function handleSearchSubmit(isShort) {
 		const movies = moviesList.filter((movie) => {
 			const filteredMovieInclude =
-				movie.nameRU.toLowerCase().includes(search.toLowerCase()) ||
-				movie.nameEN.toLowerCase().includes(search.toLowerCase());
-				return isShort ? movie.duration < short && filteredMovieInclude : filteredMovieInclude;
-			});
+			movie.nameRU.toLowerCase().includes(search.toLowerCase()) 
+			||
+			movie.nameEN.toLowerCase().includes(search.toLowerCase());
+			return isShort ? movie.duration < short && filteredMovieInclude : filteredMovieInclude;
+		});
 		setIsSearchStarted(true);
 		setFilteredMovies(movies);
 		localStorage.setItem("isShort", isShort);

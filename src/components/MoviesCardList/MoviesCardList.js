@@ -1,7 +1,8 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
+import { useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import './MoviesCardList.css';
-import MoviesCard from '../MoviesCard/MoviesCard';
+import MovieCard from '../MoviesCard/MoviesCard';
 import {
 	widthDesktop,
 	widthTablet,
@@ -14,12 +15,15 @@ import {
 	showMoreAddMobile,
 } from '../../utils/contants';
 
-const MoviesCardList = ({ isLoading, savedMovies, onSave, onDelete, movies, filteredMovies, isConnectionError,}) => {
+const MoviesCardList = ({ isLoading, savedMovies, onSave, onDelete, movies, filteredMovies, isConnectionError }) => {
 	const path = useLocation();
+
 	const cards = path.pathname === "/movies" ? movies : filteredMovies;
 	const savedMoviesPath = path.pathname === "/saved-movies";
+
 	const [paginate, setPaginate] = useState(0);
 	const [moreButton, setMoreButton] = useState(false);
+
 	const changePaginate = useCallback(() => {
 		if (savedMoviesPath) {
 			setPaginate(Number.MAX_VALUE);
@@ -29,7 +33,7 @@ const MoviesCardList = ({ isLoading, savedMovies, onSave, onDelete, movies, filt
 			!savedMoviesPath && setPaginate(showMoreMobile);
 			return;
 		} else if (window.innerWidth > widthTablet && window.innerWidth < widthDesktop) {
-			!savedMoviesPath && setPaginate(showMoreTablet);
+			!savedMoviesPath && setPaginate(showMoreAddTablet);
 			return;
 		} else {
 			!savedMoviesPath && setPaginate(showMoreDesktop);
@@ -40,8 +44,7 @@ const MoviesCardList = ({ isLoading, savedMovies, onSave, onDelete, movies, filt
 	const onMore = () => {
 		if (window.innerWidth < widthMobile) { 
 			return setPaginate(paginate + showMoreAddMobile);
-		} else if (window.innerWidth > widthTablet
-			&& window.innerWidth < widthDesktop) {
+		} else if (window.innerWidth > showMoreTablet && window.innerWidth < widthDesktop) {
 			return setPaginate(paginate + showMoreAddTablet);
 		} else {
 			return setPaginate(paginate + showMoreAddDesktop);
@@ -66,7 +69,7 @@ const MoviesCardList = ({ isLoading, savedMovies, onSave, onDelete, movies, filt
 	return (
 		<section className="movies-list">
 			{isConnectionError && (
-				<p className="movies-list__connection-error">Произошла ошибка. Попробуйте ещё раз.</p>
+				<p className="movies-list__connection-error">Во время запроса произошла ошибка. Попробуйте ещё раз</p>
 			)}
 			{!isConnectionError && !isLoading && (
 				<>
@@ -75,7 +78,7 @@ const MoviesCardList = ({ isLoading, savedMovies, onSave, onDelete, movies, filt
 					) : (
 						<ul className="movies-list__list">
 							{cards.slice(0, paginate).map((card) => (
-								<MoviesCard movieCard={card} onSave={onSave} onDelete={onDelete} savedMovies={savedMovies} filtredMovies={filteredMovies} key={card.id || card.movieId}/>
+								<MovieCard movieCard={card} onSave={onSave} onDelete={onDelete} savedMovies={savedMovies} filtredMovies={filteredMovies} key={card.id || card.movieId}/>
 							))}
 						</ul>
 					)}

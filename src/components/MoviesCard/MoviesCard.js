@@ -36,12 +36,12 @@ const MovieCard = ({ movieCard, onSave, onDelete, savedMovies }) => {
 				<p className="movie__length">{convertTime(movieCard.duration)}</p>
 			</div>
 			<a className="movie__link" href={movieCard.trailerLink} rel="noreferrer">
-				<img className="movie__screenshot link" src={ movieCard.image.url ? `https://api.nomoreparties.co${movieCard.image.url}` : movieCard.image } alt={movieCard.nameRU || movieCard.nameEN}/>
+				<img className="movie__screenshot link" src={ movieCard.image.url ? `https://api.nomoreparties.co${movieCard.image.url}` : movieCard.image} alt={movieCard.nameRU || movieCard.nameEN}/>
 			</a>
 			{path.pathname === "/saved-movies" ? (
 				<button className="movie__button movie__button_delete link" type="button" onClick={handleDelete}/>
 			) : (
-				<button className={ isLiked ? "movie__button link movie__button_saved" : "movie__button link movie__button_save"} type="button" onClick={isLiked ? handleDelete : handleSave}/>
+				<button className={ isLiked ? "movie__button link movie__button_saved" : "movie__button link movie__button_save" } type="button" onClick={isLiked ? handleDelete : handleSave}/>
 			)}
 		</li>
 	);
