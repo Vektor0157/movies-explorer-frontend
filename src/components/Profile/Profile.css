@@ -1,120 +1,165 @@
 .profile {
+	background-color: #202020;
+	width: 100%;
+	height: 120vh;
+}
+
+.profile__container {
+	padding: 74px auto 70px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	max-width: 470px;
+	align-items: center;
+	max-width: 410px;
 	margin: 0 auto;
-	padding: 56px 30px 70px 30px;
+	background-color: #202020;
 }
 
 .profile__title {
-	color: #fff;
+	width: 100%;
+	color: #FFF;
 	text-align: center;
 	font-size: 24px;
-	font-style: normal;
 	font-weight: 500;
-	line-height: normal;
+	line-height: 1.21;
+	margin: 0;
 	padding: 0;
-	margin-bottom: 123px;
 }
 
 .profile__form {
+	margin-top: 123px;
 	display: flex;
 	flex-direction: column;
-	align-content: stretch;
-	margin: 0 auto;
-	width: 410px;
-	padding: 0 0 220px 0;
+	width: 100%;
 }
 
-.profile__info {
+.profile__form-container {
 	display: flex;
 	justify-content: space-between;
-	width: 100%;
-	margin: 0;
-	padding: 0;
-}
-
-.profile__info__top {
-	border-bottom: 1px solid rgba(66, 66, 66, 1);
+	gap: 20px;
+	margin-bottom: 0;
+	border-bottom: 1px solid #424242;
 	padding-bottom: 16px;
-	margin-bottom: 17px;
+	width: 100%;
 }
 
-.profile__text {
-	color: #fff;
-	font-size: 11px;
-	font-weight: 500;
-	line-height: normal;
-	margin: 0;
-	padding: 0;
+.profile__form-container_last {
+	margin-bottom: 220px;
+}
+
+.profile__form-container:last-of-type {
+	margin-bottom: 0;
+	padding-bottom: 0;
+	border-bottom: none;
+}
+
+.profile__form-label {
 	text-align: left;
+	color: #FFF;
+	font-size: 11px;
+	font-weight: 500;
+	line-height: 1.21;
+	max-width: 140px;
 }
 
-.profile__input {
-	color: #fff;
+.profile__form-field {
 	text-align: right;
+	border: none;
+	outline: none;
+	background-color: transparent;
+	color: #FFF;
 	font-size: 11px;
 	font-weight: 400;
-	line-height: normal;
-	background-color: inherit;
-	border: none;
-	margin: 0;
+	line-height: 1.21;
 	padding: 0;
-	outline: none;
+	width: 250px;
 }
 
-.profile__button-change {
-	color: #fff;
+.profile__form-field_disabled {
+  cursor: default;
+ pointer-events: none;
+}
+
+.profile__form-field:focus {
+	border: none;
+	border-bottom: 1px solid #4285F4;
+ }
+
+ .profile__input-error {
+	color: #EE3465;
+	font-size: 10px;
+	font-weight: 400;
+	line-height: 1.21;
+	margin-top: 6px;
+	margin-bottom: 7px;
+ }
+
+.profile__submit-button {
+	margin-top: 10px;
+	width: 100%;
+	color: #FFF;
 	text-align: center;
 	font-size: 13px;
 	font-weight: 400;
-	line-height: normal;
-	background-color: inherit;
+	line-height: 1.21;
+
 	border: none;
-	margin-bottom: 16px;
-	padding: 0;
+	min-height: 16px;
+	cursor: pointer;
+	background-color: transparent;
 }
 
-.profile__button-exit {
-	color: #ee3465;
+.profile__submit-button_disabled {
+  display: none;
+}
+
+.profile__submit-button_inactive {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.profile__signout-button {
+	margin-top: 16px;
+	width: 100%;
+	color: #EE3465;
 	text-align: center;
 	font-size: 13px;
+	font-style: normal;
 	font-weight: 500;
 	line-height: normal;
-	background-color: inherit;
+	text-decoration: none;
+	background-color: transparent;
 	border: none;
 	padding: 0;
 }
 
-@media screen and (max-width: 800px) {
-	.profile {
-		padding: 206px 30px 269px 30px;
-	}
-	.profile__title {
-		margin-bottom: 96px;
+@media screen and (max-width: 1279px) {
+	.profile__container {
+		 padding: 231px auto 269px;
 	}
 	.profile__form {
-		padding: 0 0 210px 0;
+		 margin-top: 96px;
+	}
+	.profile__submit-button {
+		 margin-top: 210px;
 	}
 }
-
-@media screen and (max-width: 490px) {
-	.profile {
-		padding: 35px 30px 40px 30px;
-		max-width: 320px;
-	}
-	.profile__title {
-		margin-bottom: 80px;
+ 
+@media screen and (max-width: 767px) {
+	.profile__container {
+		 max-width: 260px;
+		 padding: 64px 0 40px;
 	}
 	.profile__form {
-		padding: 0 0 379px 0;
-		width: 260px;
+		 margin-top: 80px;
 	}
-	.profile__button-change {
-		font-size: 12px;
+	.profile__submit-button {
+		 margin-top: 379px;
 	}
-	.profile__button-exit {
-		font-size: 12px;
+	.profile__form-label {
+		 max-width: 100px;
+	}
+	.profile__form-field {
+		 width: 150px;
 	}
 }

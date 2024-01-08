@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { useLocation } from "react-router-dom";
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import {
 	widthDesktop,
+	widthTablet,
 	widthMobile,
 	showMoreDesktop,
 	showMoreTablet,
@@ -12,57 +14,82 @@ import {
 	showMoreAddMobile,
 } from '../../utils/contants';
 
-function MoviesCardList({ movies, isSavedMovies, savedMovies, searchWord, handleIsSavedToogle, checkIsSaved,}) {
-	const [amountOfMovies, setAmountOfMovies] = useState(null);
-
-	const screenWidth = () => {
-		if (window.innerWidth > widthDesktop) {
-			setAmountOfMovies(showMoreDesktop);
-		} else if (window.innerWidth > widthMobile && window.innerWidth < widthDesktop) {
-			setAmountOfMovies(showMoreTablet);
-		} else {
-			setAmountOfMovies(showMoreMobile);
+const MoviesCardList = ({ isLoading, savedMovies, onSave, onDelete, movies, filteredMovies, isConnectionError,}) => {
+	const path = useLocation();
+	const cards = path.pathname === "/movies" ? movies : filteredMovies;
+	const savedMoviesPath = path.pathname === "/saved-movies";
+	const [paginate, setPaginate] = useState(0);
+	const [moreButton, setMoreButton] = useState(false);
+	const changePaginate = useCallback(() => {
+		if (savedMoviesPath) {
+			setPaginate(Number.MAX_VALUE);
+			return;
 		}
-	};
-
-	const addMovies = () => {
-		if (window.innerWidth > widthDesktop) {
-			setAmountOfMovies(amountOfMovies + showMoreAddDesktop);
-		} else if (window.innerWidth > widthMobile && window.innerWidth < widthDesktop) {
-			setAmountOfMovies(amountOfMovies + showMoreAddTablet);
+		if (window.innerWidth < widthMobile) {
+			!savedMoviesPath && setPaginate(showMoreMobile);
+			return;
+		} else if (window.innerWidth > widthTablet && window.innerWidth < widthDesktop) {
+			!savedMoviesPath && setPaginate(showMoreTablet);
+			return;
 		} else {
-			setAmountOfMovies(amountOfMovies + showMoreAddMobile);
+			!savedMoviesPath && setPaginate(showMoreDesktop);
+			return;
+		}
+	}, [setPaginate, savedMoviesPath]);
+
+	const onMore = () => {
+		if (window.innerWidth < widthMobile) { 
+			return setPaginate(paginate + showMoreAddMobile);
+		} else if (window.innerWidth > widthTablet
+			&& window.innerWidth < widthDesktop) {
+			return setPaginate(paginate + showMoreAddTablet);
+		} else {
+			return setPaginate(paginate + showMoreAddDesktop);
 		}
 	};
 
 	useEffect(() => {
-		screenWidth();
-		window.addEventListener("resize", screenWidth);
-		return () => {
-			window.removeEventListener("resize", screenWidth);
-		};
-	}, [searchWord]);
+		changePaginate();
+	}, [changePaginate, filteredMovies]);
+
+	useEffect(() => {
+		if (cards.length === 0) {
+			setMoreButton(false);
+		}
+		if (paginate >= cards.length) {
+			setMoreButton(false);
+		} else {
+			return setMoreButton(true);
+		}
+	}, [cards, paginate]);
 
 	return (
-		<section className="cardlist">
-			<div className='cardlist__elements'>
-				{!isSavedMovies && (Array.isArray(movies) ? movies
-					.slice(0, amountOfMovies)
-					.map((movie) => (
-						<MoviesCard key={movie.id} movie={movie} isSavedMovies={isSavedMovies} handleIsSavedToogle={handleIsSavedToogle} checkIsSaved={checkIsSaved}/>
-					)) :
-					<div className="cardlist__text">Ничего не найдено</div>)
-				}
-				{isSavedMovies && (Array.isArray(savedMovies) ? savedMovies
-					.map((savedMovie) => ( 
-						<MoviesCard key={savedMovie._id} movie={savedMovie} isSavedMovies={isSavedMovies} handleIsSavedToogle={handleIsSavedToogle} checkIsSaved={checkIsSaved}/>
-					)) :
-					<div className="cardlist__text">Ничего не найдено</div>)}
-			</div>
-			{!isSavedMovies && movies.length > amountOfMovies && Array.isArray(movies) && (
-				<button onClick={addMovies} className='cardlist__button-more' type='button'>Ещё</button>
+		<section className="movies-list">
+			{isConnectionError && (
+				<p className="movies-list__connection-error">Произошла ошибка. Попробуйте ещё раз.</p>
 			)}
+			{!isConnectionError && !isLoading && (
+				<>
+					{cards.length === 0 ? (
+						<p className="movies__no-result">Ничего не найдено</p>
+					) : (
+						<ul className="movies-list__list">
+							{cards.slice(0, paginate).map((card) => (
+								<MoviesCard movieCard={card} onSave={onSave} onDelete={onDelete} savedMovies={savedMovies} filtredMovies={filteredMovies} key={card.id || card.movieId}/>
+							))}
+						</ul>
+					)}
+				</>
+			)}
+			{!isLoading && 
+				<div className="movies__more-button-container">
+					{path.pathname === "/movies" && moreButton && (
+						<button className="movies-list__button link" type="button" onClick={onMore}>Еще</button>
+					)}
+				</div>
+			}
 		</section>
 	);
-}
+};
+
 export default MoviesCardList;

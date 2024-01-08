@@ -1,9 +1,14 @@
-.login__set {
-	margin-bottom: 180px;
+.login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 396px;
+    margin: 0 auto;
+    height: 100vh;
 }
 
-@media screen and (max-width: 510px) {
-	.login__set {
-		margin-bottom: 270px;
-	}
+@media screen and (max-width: 767px) {
+    .login {
+        width: 260px;
+    }
 }

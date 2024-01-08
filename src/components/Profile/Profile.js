@@ -1,62 +1,154 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useCallback, useEffect } from 'react';
+import { Link } from "react-router-dom";
 import './Profile.css';
-import isEmail from 'validator/es/lib/isEmail';
+import HeaderAuthorized from "../HeaderAuthorized/HeaderAuthorized";
 import CurrentUserContext from '../../contexts/CurrentUserContext';
+const NAME_REGEX = /^[а-яА-Яa-zA-ZЁёәіңғүұқөһӘІҢҒҮҰҚӨҺ\-\s]*$/;
+const EMAIL_REGEX = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
 
-function Profile({ onSignOut, onUpdateUser }) {
+const Profile = ({ logOut, handleUserUpdate, isLoading }) => {
 	const currentUser = useContext(CurrentUserContext);
-	const [formValue, setFormValue] = useState({})
+
+	const [name, setName] = useState(currentUser.name);
+	const [email, setEmail] = useState(currentUser.email);
+	const [isDisabled, setIsDisabled] = useState(true);
+	const [isSimilarValues, setIsSimilarValues] = useState(true);
+
+	const [values, setValues] = useState({});
 	const [errors, setErrors] = useState({});
 	const [isValid, setIsValid] = useState(false);
 
-	function handleChange(e) {
-		const target = e.target;
-		const name = target.name;
-		const value = target.value;
-		if (name === 'email') {
-			if (!isEmail(value)) {
-				target.setCustomValidity('Некорректый адрес почты');
-			} else {
-				target.setCustomValidity('');
-			}
+	const handleChange = (e) => {
+		const value = e.target.value;
+		const name = e.target.name;
+		setValues({ ...values, [name]: value });
+		setErrors({ ...errors, [name]: e.target.validationMessage });
+		setIsValid(e.target.closest("form").checkValidity());
+	};
+
+	const handleEmailChange = (evt) => {
+		handleChange(evt);
+		const { name, value } = evt.target;
+		if (name === "email" && !EMAIL_REGEX.test(value)) {
+			setIsValid(false);
+			setErrors({
+				...errors,
+				email: "Введите email в формате address@domain.com",
+			});
 		}
-		setFormValue({ ...formValue, [name]: value });
-		setErrors({ ...errors, [name]: target.validationMessage });
-		setIsValid(target.closest('form').checkValidity());
 	};
 
-	function handleSubmit(e) {
-		e.preventDefault();
-		if ( currentUser.name !== formValue.name && currentUser.email !== formValue.email) {
-			onUpdateUser(formValue.name, formValue.email);
-		};
+	const handleNameChange = (evt) => {
+		handleChange(evt);
+		const { name, value } = evt.target;
+		if (name === "name" && evt.target.value.length < 2) {
+			setIsValid(false);
+			setErrors({ ...errors, name: "Имя должно иметь не менее 2 символов" });
+		} else if (name === "name" && !NAME_REGEX.test(value)) {
+			setIsValid(false);
+			setErrors({
+				...errors,
+				name: "Имя может содержать только латиницу, кириллицу, пробел или дефис.",
+			});
+		}
 	};
 
+	const resetForm = useCallback(
+		(newValues = {}, newErrors = {}, newIsValid = false) => {
+			setValues(newValues);
+			setErrors(newErrors);
+			setIsValid(newIsValid);
+		},
+		[setValues, setErrors, setIsValid],
+	);
+
+	const handleSubmit = (evt) => {
+		evt.preventDefault();
+		if (!isSimilarValues) {
+			handleUserUpdate({
+				name: name,
+				email: email,
+			});
+			resetForm();
+		}
+		setIsDisabled(true);
+	};
+
+	useEffect(() => {
+		let name = true;
+		let email = true;
+		if (values.name) {
+			name = values.name === currentUser.name;
+		}
+		if (values.email) {
+			email = values.email === currentUser.email;
+		}
+		setIsSimilarValues(name && email);
+	}, [values.name, values.email, currentUser.name, currentUser.email]);
+
+	useEffect(() => {
+		if (!isLoading) {
+			setName(currentUser.name);
+			setEmail(currentUser.email);
+		}
+	}, [currentUser, isLoading]);
+
+	useEffect(() => {
+		if (values.name) {
+			setName(values.name);
+		}
+		if (values.email) {
+			setEmail(values.email);
+		}
+	}, [values.name, values.email]);
+
+	useEffect(() => {
+		if (currentUser) {
+			resetForm();
+		}
+	}, [currentUser, resetForm]);
+
+	const handleEditButton = () => {
+		setIsDisabled(!isDisabled);
+	};
+
+	const profileSubmitButtonClassName = `profile__submit-button links ${
+		isDisabled ? "profile__submit-button_disabled" : ""
+	} $ {
+		!isValid || isLoading || isSimilarValues ? "profile__submit-button_inactive" : ""
+	}`;
 
 	return (
 		<>
-			<section className='profile'>
-				<h1 className='profile__title'>Привет, {currentUser.name}!</h1>
-				<form className='profile__form'>
-					<div className='profile__info profile__info__top'>
-						<p className='profile__text'>Имя</p>
-						<input className='profile__input profile__name-input form__name' name="name" id="name-input" type="text" size="15" minLength="2" maxLength="40" required defaultValue={currentUser.name} onChange={handleChange}/>
-					</div>
-					<span className={`sign__input-error ${errors.name ? 'sign__input-error-display' : ''}`}>{errors.name}</span>
-					<div className='profile__info'>
-						<p className='profile__text'>E-mail</p>
-						<input className='profile__input profile__email-input form__email' name="email" id="email-input" type="email" autoComplete="email" size="30" minLength="2" maxLength="30" required defaultValue={currentUser.email} onChange={handleChange}/>
-					</div>
-					<span className={`sign__input-error ${errors.email ? 'sign__input-error-display' : ''}`}>{errors.email}</span>
-				</form>
-				<button className={`profile__button-change button__hover ${isValid &&
-					(formValue.name !== currentUser.name || formValue.email !== currentUser.email) ? "" : "sign__button_disabled"}`}
-					type='submit'
-					disabled={!isValid && (formValue.name === currentUser.name || formValue.email === currentUser.email)} onClick={handleSubmit}>Редактировать
-				</button>
-				<button className='profile__button-exit button__hover' type='button' onClick={onSignOut}>Выйти из аккаунта</button>
-			</section>
+			<HeaderAuthorized />
+			<main className="profile">
+				<section className="profile__container">
+					<h1 className="profile__title">{`Привет, ${currentUser.name}!`}</h1>
+					<form className="profile__form" onSubmit={handleSubmit} noValidate>
+						<div className="profile__form-container">
+							<label className="profile__form-label">Имя</label>
+							<input className={`profile__form-field ${ isDisabled || isLoading ? "profile__form-field_disabled" : "" }`} name="name" id="name-input" type="text" placeholder="Введите имя" minLength="2" maxLength="40" required value={`${values.name ? values.name : name}`} onChange={handleNameChange}/>
+						</div>
+						{errors && (
+							<span className="profile__input-error">{errors.name}</span>
+						)}
+						<div className="profile__form-container profile__form-container_last">
+							<label className="profile__form-label">E-mail</label>
+							<input className={`profile__form-field ${ isDisabled || isLoading ? "profile__form-field_disabled" : "" }`} name="email" id="email-input" type="email" placeholder="Введите email" minLength="2" maxLength="40" pattern="^\S+@\S+\.\S+$" required value={`${values.email ? values.email : email}`} onChange={handleEmailChange}/>
+						</div>
+						{errors && (
+							<span className="profile__input-error">{errors.email}</span>
+						)}
+						<button className={profileSubmitButtonClassName} type="submit" disabled={!isValid || isLoading || isSimilarValues ? true : false}>Сохранить</button>
+						<button type="button" onClick={handleEditButton} className="profile__submit-button link">
+							{isDisabled ? "Редактировать" : "Отменить"}
+						</button>
+					</form>
+					<Link to="/" className="profile__signout-button link" onClick={logOut}>Выйти из аккаунта</Link>
+				</section>
+			</main>
 		</>
 	);
 };
+
 export default Profile;

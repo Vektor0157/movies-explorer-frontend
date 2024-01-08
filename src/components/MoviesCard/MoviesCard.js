@@ -1,51 +1,77 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import './MoviesCard.css';
+import "./MoviesCard.css";
+import { useLocation } from "react-router-dom";
+import { useMemo } from "react";
 
-function MoviesCard({ movie, isSavedMovies, handleIsSavedToogle, checkIsSaved }) {
-	const [isSaved, setIsSaved] = useState(false);
-	const { pathname } = useLocation();
+const MOVIE_IMAGE_URL = 'https://api.nomoreparties.co/beatfilm-movies'
 
-	const handleOnClick = (e) => {
-		 handleIsSavedToogle(e, movie, setIsSaved, isSaved);
-	};
+const MovieCard = ({ movieCard, onSave, onDelete, savedMovies }) => {
+  const path = useLocation();
 
-	useEffect(() => {
-		 if (!isSavedMovies) {
-			  if (checkIsSaved(movie)) {
-					setIsSaved(true);
-			  } else {
-					setIsSaved(false);
-			  }
-		 }
-	}, [checkIsSaved, movie, isSavedMovies]);
+  const isLiked = useMemo(() => {
+    if (path.pathname === "/movies") {
+      return savedMovies.some((m) => m.movieId === movieCard.id.toString());
+    }
+    return false;
+  }, [movieCard.id, path.pathname, savedMovies]);
 
-	const formatTime = (minutes) => {
-		 const min = minutes % 60;
-		 const hour = Math.floor(minutes / 60);
-		 return hour ? `${hour}ч ${min}м` : `${min}м`;
-	};
+  const handleSave = () => {
+    !isLiked ? onSave(movieCard) : onDelete(movieCard);
+  };
 
-const SURL = 'https://api.nomoreparties.co'
+  const handleDelete = () => {
+    return onDelete(movieCard);
+  };
 
-	return (
-		<>
-			<article className='card'>
-				<a className='card__link' href={movie.trailerLink} target="_blank" rel="noreferrer">
-					<div className='card__info'>
-						<h2 className='card__title'>{movie.nameRU}</h2>
-						<p className='card__duration'>{formatTime(movie.duration)}</p>
-					</div>
-					<img className='card__image' alt={movie.nameRU} src={isSavedMovies ? movie.image : SURL + movie.image.url} />
-				</a>
-				{pathname === '/movies' ? (
-					<button type="button" className={`card__button card__button_type${isSaved ? '_is-saved' : '_save'}`} onClick={handleOnClick}>{isSaved ? "" : "Сохранить"}</button>
-				) : (
-					<button onClick={handleOnClick} className="card__button card__button_type_delete"></button>
-				)}
-			</article>
-		</>
-	);
-}
+  const convertTime = (length) => {
+    if (length >= 60) {
+      return `${Math.floor(length / 60)} ч ${length % 60} мин`;
+    }
+    return `${length}м`;
+  };
 
-export default MoviesCard;
+  return (
+    <li className="movie">
+      <div className="movie__about">
+        <a
+          className="movie__link"
+          href={movieCard.trailerLink}
+          rel="noreferrer"
+        >
+          <h2 className="movie__title link">
+            {movieCard.nameRU || movieCard.nameEN}
+          </h2>
+        </a>
+        <p className="movie__length">{convertTime(movieCard.duration)}</p>
+      </div>
+      <a className="movie__link" href={movieCard.trailerLink} rel="noreferrer">
+        <img
+          className="movie__screenshot link"
+          src={
+            movieCard.image.url
+              ? `${MOVIE_IMAGE_URL}${movieCard.image.url}`
+              : movieCard.image
+          }
+          alt={movieCard.nameRU || movieCard.nameEN}
+        />
+      </a>
+      {path.pathname === "/saved-movies" ? (
+        <button
+          className="movie__button movie__button_delete link"
+          type="button"
+          onClick={handleDelete}
+        />
+      ) : (
+        <button
+          className={
+            isLiked ? "movie__button link movie__button_saved"
+            : "movie__button link movie__button_save"
+          }
+          type="button"
+          onClick={isLiked ? handleDelete : handleSave}
+        />
+      )}
+    </li>
+  );
+};
+
+export default MovieCard;

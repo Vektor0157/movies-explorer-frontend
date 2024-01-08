@@ -1,9 +1,7 @@
-import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import Header from '../Header/Header';
 import Main from '../Main/Main';
-import Footer from '../Footer/Footer';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
 import Login from '../Login/Login';
@@ -11,181 +9,192 @@ import Register from '../Register/Register';
 import Profile from '../Profile/Profile';
 import NotFound from '../NotFound/NotFound';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
-import * as auth from '../../utils/auth';
 import api from '../../utils/MainApi';
 import apiMovies from "../../utils/MoviesApi";
 
 function App() {
-	const [isNavPopupOpen, setIsNavPopupOpen] = useState(false);
-	const [movies, setMovies] = useState([]);
-	const [savedMovies, setSavedMovies] = useState([]);
-	const [isLoggedIn, setLoggedIn] = useState(false);
-	const [currentUser, setCurrentUser] = useState({});
-	const { pathname } = useLocation();
 	const navigate = useNavigate();
-	const token = localStorage.getItem("jwt");
+	const path = useLocation();
+	const [isLoading, setIsLoading] = useState(false);
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const [currentUser, setCurrentUser] = useState({});
+	const [moviesList, setMoviesList] = useState([]);
+	const [savedMovies, setSavedMovies] = useState([]);
+	const [isConnectionError, setIsConnectionError] = useState(false);
 
 	useEffect(() => {
-		if (token) {
-			setLoggedIn(true);
-			if (pathname === "/signup" || pathname === "/signin") {
-				navigate("/movies");
-			} else {
-				navigate(pathname);
-			}
+		const jwt = localStorage.getItem("jwt");
+		if (jwt) {
+		api.getUserInfo()
+			.then((data) => {
+				setCurrentUser((userData) => ({
+					...userData,
+					name: data.name,
+					email: data.email,
+					_id: data._id,
+				}));
+				setIsLoggedIn(true);
+			})
+			.catch((err) => {
+				console.log(err);
+				logOut();
+			});
+		} else {
+			logOut();
 		}
-	}, [token, navigate, pathname]);
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
+	const handleLogin = (email, password) => {
+		return api.login(email, password)
+			.then(({ token }) => {
+				localStorage.setItem("jwt", token);
+				api.setToken(token);
+				return api.getUserInfo(token);
+			})
+			.then(({ name, email }) => {
+				setCurrentUser((prev) => ({
+					...prev,
+					name: name,
+					email: email,
+				}));
+				setIsLoggedIn(true);
+				navigate("/movies", { replace: true });
+				return true;
+			});
+	};
+
+	const handleRegister = (name, email, password) => {
+		return api
+			.register(name, email, password)
+			.then(() => handleLogin(email, password));
+	};
+
+	const logOut = () => {
+		localStorage.clear();
+		setCurrentUser({});
+		setIsLoggedIn(false);
+		navigate("/", { replace: true });
+	};
+
+	const handleUserUpdate = (userData) => {
+		setIsLoading(true);
+		api.editUserInfo(userData)
+			.then((data) => {
+				setCurrentUser(data);
+			})
+			.catch((err) => {
+				console.log(err);
+			})
+			.finally(() => {
+				setIsLoading(false);
+			});
+	};
+
+	const loadAllMovies = () => {
+		setIsLoading(true);
+		setIsConnectionError(false);
+		apiMovies.getMovies()
+			.then((data) => {
+				setMoviesList(data);
+			})
+			.catch((err) => {
+				console.log(err);
+				setIsConnectionError(true);
+			})
+			.finally(() => {
+				setIsLoading(false);
+			});
+	};
 
 	useEffect(() => {
-		if (isLoggedIn) {
-			api.getUserInfo()
-			.then((currentUser) => {
-				setCurrentUser(currentUser.data)
-			})
-			.catch((err) => err);
+		const loadSavedMovies = () => {
+			setIsLoading(true);
+			setIsConnectionError(false);
 			api.getSavedMovies()
-			.then((savedMovies) => {
-				setSavedMovies(savedMovies);
-			})
-			.catch((err) => err);
+				.then((data) => {
+					setSavedMovies(data);
+				})
+				.catch((err) => {
+					console.log(err);
+					setIsConnectionError(true);
+				})
+				.finally(() => {
+					setIsLoading(false);
+				});
+		};
+		if (isLoggedIn) {
+			loadSavedMovies();
 		}
 	}, [isLoggedIn]);
 
-	function handleEditNavBarClick() {
-		setIsNavPopupOpen(true);
-	}
-
-	function handleCloseNavPopup() {
-		setIsNavPopupOpen(false);
-	}
-
-	function handleLogin() {
-		setLoggedIn(true);
-	}
-
-	const handleGetAllMovies = (preloader) => {
-	preloader(true);
-	apiMovies.getMovies()
-		.then((data) => {
-			setMovies(data);
-			localStorage.setItem("arrayMovies", JSON.stringify(data));
-		})
-		.catch((err) => {
-			console.log(err);
-		})
-		.finally(() => {
-			preloader(false);
-		});
-	};
-
-	function handleRegisterUser(data) {
-	auth.register(data)
-		.then((res) => {
-			localStorage.setItem('jwt', res.token);
-			handleLogin();
-			navigate("/movies", { replace: true });
-		})
-		.catch((err) => {
-			console.log(err);
-		})
-	}
-
-	function handleAuthorizationUser(data) {
-	auth.login(data)
-		.then((res) => {
-			localStorage.setItem('jwt', res.token);
-			handleLogin();
-			navigate("/movies", { replace: true });
-		})
-		.catch((err) => {
-			console.log(err);
-		})
-	}
-
-	function signOut() {
-		setLoggedIn(false);
-		setCurrentUser({});
-		navigate("/");
-		localStorage.removeItem('jwt');
-		localStorage.removeItem('arrayMovies');
-		localStorage.removeItem('isShorts');
-		localStorage.removeItem('searchWord');
-		localStorage.removeItem('isShortsSavedMovies');
-	}
-
-	function handleUpdateUser(name, email) {
-		api.editUserInfo(name, email)
-		.then((update) => {
-			setCurrentUser({
-				...currentUser,
-				name: update.name,
-				email: update.email,
-			})
-		})
-		.catch((err) => err);
-	}
-
-	const handleSaveMovie = (movie, setIsSaved) => {
-		const objMovie = {
+	const handleSaveMovie = (movie) => {
+		const movieObject = {
 			country: movie.country,
 			director: movie.director,
 			duration: movie.duration,
 			year: movie.year,
 			description: movie.description,
-			image: `https://api.nomoreparties.co${movie.image.url}`,
+			image: 'https://api.nomoreparties.co' + movie.image.url,
 			trailerLink: movie.trailerLink,
-			thumbnail: `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`,
+			thumbnail: 'https://api.nomoreparties.co' + movie.image.formats.thumbnail.url,
 			movieId: movie.id,
 			nameRU: movie.nameRU,
-			nameEN: movie.nameEN,
+			nameEN: movie.nameRU,
 		};
-		api.createSavedMovie(objMovie)
-			.then((objMovie) => {
-				setSavedMovies([objMovie, ...savedMovies]);
+		setIsConnectionError(false);
+		api.addMovie(movieObject)
+			.then((userMovie) => {
+				setSavedMovies([...savedMovies, userMovie.movie]);
 			})
-			.then(() => {
-				setIsSaved(true);
-			})
-			.catch((err) => err);
+			.catch((err) => {
+				console.log(err);
+				setIsConnectionError(true);
+			});
 	};
 
-	const handleDeleteMovie = (movie, setIsSaved) => {
-		api.deleteSaved(movie._id)
-		.then(() => {
-			setSavedMovies((state) => state.filter((c) => c._id !== movie._id && c));
-		})
-		.then(() => {
-			setIsSaved(false);
-		})
-		.catch((err) => err);
+	const handleDeleteMovie = (movie) => {
+		const movieToBeRemoved = savedMovies.find((m) => {
+			if (path.pathname === "/movies") {
+				return movie.id.toString() === m.movieId;
+			} else {
+				return movie.movieId === m.movieId;
+			}
+		});
+		setIsConnectionError(false);
+		api.removeMovie(movieToBeRemoved._id.toString())
+			.then((removedMovie) => {
+				setSavedMovies((state) =>
+					state.filter((item) => item._id !== removedMovie._id)
+				);
+			})
+			.catch((err) => {
+				console.log(err);
+				setIsConnectionError(true);
+			});
 	};
 
 	return (
-		<CurrentUserContext.Provider value={currentUser}>
-		  <div className="app">
-			 {(pathname === '/' || pathname === '/saved-movies' || pathname === '/movies' || pathname === '/profile') && (
-				<Header isOpen={isNavPopupOpen} onClose={handleCloseNavPopup} onEditNavPopup={handleEditNavBarClick} isLoggedIn={isLoggedIn} />
-			 )}
-			 <Routes>
-				<Route path="/" element={<Main />} />
-				{isLoggedIn ? (
-				  <>
-					 <Route path="/movies" element={<Movies movies={movies} getMovies={handleGetAllMovies} setMovies={setMovies} isLoggedIn={isLoggedIn} savedMovies={savedMovies} handleSaveMovie={handleSaveMovie} handleDeleteMovie={handleDeleteMovie} />} />
-					 <Route path="/saved-movies" element={<SavedMovies isLoggedIn={isLoggedIn} savedMovies={savedMovies} handleDeleteMovie={handleDeleteMovie} />} />
-					 <Route path="/profile" element={<Profile isLoggedIn={isLoggedIn} onSignOut={signOut} onUpdateUser={handleUpdateUser} />} />
-				  </>
-				) : (
-				  <>
-					 <Route path="/sign-up" element={isLoggedIn ? <Navigate to="/movies" /> : <Register onRegister={handleRegisterUser} />} />
-					 <Route path="/sign-in" element={isLoggedIn ? <Navigate to="/movies" /> : <Login onLogin={handleAuthorizationUser} />} />
-				  </>
-				)}
-				<Route path="*" element={<NotFound />} />
-			 </Routes>
-			 {(pathname === '/' || pathname === '/saved-movies' || pathname === '/movies') && <Footer />}
-		  </div>
-		</CurrentUserContext.Provider>
-	 );
+		<div className="app">
+			<CurrentUserContext.Provider value={currentUser}>
+				<Routes>
+					<Route path="/" element={<Main isLoggedIn={isLoggedIn} />} />
+					<Route path="/signin" element={<Login onLogin={handleLogin} />} />
+					<Route path="/signup" element={<Register onRegister={handleRegister} />}/>
+					<Route path="/profile" element={
+						<Profile logOut={logOut} handleUserUpdate={handleUserUpdate} isLoading={isLoading}/>
+					}/>
+					<Route path="/movies" element={
+						<Movies savedMovies={savedMovies} moviesList={moviesList} isLoading={isLoading} onDelete={handleDeleteMovie} onSave={handleSaveMovie} isConnectionError={isConnectionError} loadAllMovies={loadAllMovies}/>
+					}/>
+					<Route path="/saved-movies" element={
+						<SavedMovies savedMoviesList={savedMovies} isLoading={isLoading} onDelete={handleDeleteMovie} onSave={handleSaveMovie} isConnectionError={isConnectionError}/>
+					}/>
+					<Route path="*" element={<NotFound />} />
+				</Routes>
+			</CurrentUserContext.Provider>
+		</div>
+	);
 }
 
 export default App;

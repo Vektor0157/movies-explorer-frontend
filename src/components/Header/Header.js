@@ -1,27 +1,28 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './Header.css';
 import logo from '../../images/logo.svg';
-import NavLinks from '../NavLinks/NavLinks';
-import NavBar from '../NavBar/NavBar';
+import HeaderLink from "./HeaderLink/HeaderLink";
 
-function Header({ isOpen, onClose, onEditNavPopup, isLoggedIn }) {
-	const { pathname } = useLocation();
-
+const Header = () => {
 	return (
-		<header className={`header ${pathname !== '/' ? '' : 'header_theme_main'}`}>
-			<section className='header__section'>
-				<div className='header__component'>
-					<a href='/#about-project'><img className='header__logo' alt='Логотип' src={logo} /></a>
-				</div>
-				<div className='header__links'>
-					{isLoggedIn ?
-					<NavBar isOpen={isOpen} onClose={onClose} onEditNavPopup={onEditNavPopup}/> 
-					:
-					<NavLinks/>}
-				</div>
-			</section>
+		<header className="header">
+			<div className="header__container">
+				<Link to="/" className="header__logo-link">
+					<img src={logo} alt="логотип проекта" className="header__logo link"/>
+				</Link>
+				<nav className="header__menu">
+					<ul className="header__links">
+						{[
+							{ name: "Войти", link: "/signin", style: "header__link-name header__link header__link_green link" },
+							{ name: "Регистрация", link: "/signup", style: "header__link-name header__link header__link_registration link" },
+						].map((item, index) => (
+							<HeaderLink name={item.name} link={item.link} style={item.style} key={index}/>
+						))}
+					</ul>
+				</nav>
+			</div>
 		</header>
 	);
-}
+};
+
 export default Header;

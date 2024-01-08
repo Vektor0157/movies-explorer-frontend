@@ -1,72 +1,48 @@
-.checkbox {
+.search__checkbox-button-container {
 	display: flex;
-	justify-content: left;
- }
- .checkbox__input {
-	display: inline-block;
+	gap: 14px;
+}
+.search__checkbox-button {
 	position: relative;
-	padding-left: 50px;
-	cursor: pointer;
-	background-color: rgba(43, 224, 128, 1);
- }
- .checkbox__body {
-	color: #fff;
-	font-size: 13px;
-	font-weight: 400;
-	line-height: 18px;
- }
- 
- .checkbox__label {
 	display: inline-block;
-	position: relative;
-	padding-left: 50px;
-	cursor: pointer;
- }
- 
- .checkbox__label input {
-	position: absolute;
-	opacity: 0;
-	height: 0;
-	width: 0;
- }
- .checkbox__input:checked ~ .checkbox__checkmark {
-	background-color: rgba(43, 224, 128, 1);
- }
- .checkbox__input:checked ~ .checkbox__checkmark:after {
-	left: 18px;
- }
- .checkbox__label:hover input ~ .checkbox__checkmark {
-	background-color: rgba(235, 235, 235, 1);
- }
- .checkbox__label:hover input:checked ~ .checkbox__checkmark {
-	background-color: rgba(43, 224, 128, 1);
- }
- .checkbox__label .checkbox__checkmark {
-	position: absolute;
-	top: 1px;
-	left: 0;
-	height: 18px;
 	width: 36px;
-	background-color: rgba(196, 196, 196, 1);
-	transition: background-color 0.25s ease;
-	border-radius: 11px;
- }
- .checkbox__label .checkbox__checkmark:after {
+	height: 20px;
+	margin: 0;
+	vertical-align: top;
+	background: #343434;
+	border-radius: 20px;
+	outline: none;
+	cursor: pointer;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	transition: all 0.3s cubic-bezier(0.2, 0.85, 0.32, 1.2);
+}
+
+.search__checkbox-button::after {
 	content: "";
+	display: inline-block;
 	position: absolute;
-	left: 3px;
-	top: 3px;
-	width: 12px;
-	height: 12px;
-	display: block;
-	background-color: rgba(255, 255, 255, 1);
-	border-radius: 50%;
-	transition: left 0.25s ease;
- }
- 
- @media screen and (max-width: 750px) {
-	.checkbox__body {
-	  font-size: 11px;
+	left: 6px;
+	top: 6px;
+	width: 8px;
+	height: 8px;
+	background-color: #a0a0a0;
+	border-radius: 8px;
+	transform: translateX(0);
+	transition: all 0.3s cubic-bezier(0.2, 0.85, 0.32, 1.2);
+}
+
+.search__checkbox-button:checked::after {
+	transform: translateX(calc(100% + 8px));
+	background-color: #fff;
+}
+.search__checkbox-button:checked {
+	background-color: #2be080;
+}
+
+@media screen and (max-width: 767px) {
+	.search__checkbox-button-container {
+		gap: 12px;
 	}
- }
- 
+}

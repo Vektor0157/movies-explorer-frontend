@@ -1,23 +1,25 @@
-import './Main.css'
+import Header from "../Header/Header";
+import HeaderAuthorized from "../HeaderAuthorized/HeaderAuthorized";
+import Footer from "../Footer/Footer";
 import Promo from "../Promo/Promo";
 import AboutProject from '../AboutProject/AboutProject';
 import Techs from '../Techs/Techs';
 import AboutMe from '../AboutMe/AboutMe';
 import Portfolio from '../Portfolio/Portfolio';
 
-function Main() {
+const Main = ({ isLoggedIn }) => {
 	return (
-		<main className="content">
-			<div className="background-green">
+		<>
+			{isLoggedIn ? <HeaderAuthorized /> : <Header />}
+			<main className="content">
 				<Promo />
-			</div>
-			<AboutProject />
-			<div className="background-gray">
+				<AboutProject />
 				<Techs />
-			</div>
-			<AboutMe />
-			<Portfolio />
-		</main>
+				<AboutMe />
+				<Portfolio />
+			</main>
+			<Footer />
+		</>
 	)
 }
 export default Main;
