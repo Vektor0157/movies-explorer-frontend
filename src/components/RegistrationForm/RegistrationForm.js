@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import "./RegistrationForm.css";
 import RegistrationField from "./RegistrationField/RegistrationField";
-import { NAME_REGEX, EMAIL_REGEX } from "../../utils/contants";
+import { nameRegex, emailRegex } from "../../utils/contants";
 
 const RegistrationForm = ({ button, onSubmit }) => {
 	const [values, setValues] = useState({});
@@ -20,7 +20,7 @@ const RegistrationForm = ({ button, onSubmit }) => {
 	const handleEmailChange = (evt) => {
 		handleChange(evt);
 		const { name, value } = evt.target;
-		if (name === "email" && !EMAIL_REGEX.test(value)) {
+		if (name === "email" && !emailRegex.test(value)) {
 			setIsValid(false);
 			setErrors({
 				...errors,
@@ -35,7 +35,7 @@ const RegistrationForm = ({ button, onSubmit }) => {
 		if (name === "name" && evt.target.value.length < 2) {
 			setIsValid(false);
 			setErrors({ ...errors, name: "Имя должно иметь не менее 2 символов" });
-		} else if (name === "name" && !NAME_REGEX.test(value)) {
+		} else if (name === "name" && !nameRegex.test(value)) {
 			setIsValid(false);
 			setErrors({
 				...errors,

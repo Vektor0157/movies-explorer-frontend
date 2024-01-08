@@ -9,5 +9,5 @@ export const showMoreAddTablet = 2;
 export const showMoreMobile = 5;
 export const showMoreAddMobile = 2;
 
-export const NAME_REGEX = /^[а-яА-Яa-zA-ZЁёәіңғүұқөһӘІҢҒҮҰҚӨҺ\-\s]*$/;
-export const EMAIL_REGEX = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+export const nameRegex = /^[а-яА-Яa-zA\-\s]*$/;
+export const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;

@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 import './Profile.css';
 import HeaderAuthorized from "../HeaderAuthorized/HeaderAuthorized";
 import CurrentUserContext from '../../contexts/CurrentUserContext';
-const NAME_REGEX = /^[а-яА-Яa-zA-ZЁёәіңғүұқөһӘІҢҒҮҰҚӨҺ\-\s]*$/;
-const EMAIL_REGEX = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+import { nameRegex, emailRegex } from "../../utils/contants";
 
 const Profile = ({ logOut, handleUserUpdate, isLoading }) => {
 	const currentUser = useContext(CurrentUserContext);
@@ -29,7 +28,7 @@ const Profile = ({ logOut, handleUserUpdate, isLoading }) => {
 	const handleEmailChange = (evt) => {
 		handleChange(evt);
 		const { name, value } = evt.target;
-		if (name === "email" && !EMAIL_REGEX.test(value)) {
+		if (name === "email" && !emailRegex.test(value)) {
 			setIsValid(false);
 			setErrors({
 				...errors,
@@ -44,7 +43,7 @@ const Profile = ({ logOut, handleUserUpdate, isLoading }) => {
 		if (name === "name" && evt.target.value.length < 2) {
 			setIsValid(false);
 			setErrors({ ...errors, name: "Имя должно иметь не менее 2 символов" });
-		} else if (name === "name" && !NAME_REGEX.test(value)) {
+		} else if (name === "name" && !nameRegex.test(value)) {
 			setIsValid(false);
 			setErrors({
 				...errors,

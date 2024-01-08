@@ -1,5 +1,5 @@
 import Header from "../Header/Header";
-import HeaderAuthorized from "../HeaderAuthorized/HeaderAuthorized";
+import HeaderAuthorizedAccount from "../HeaderAuthorizedAccount/HeaderAuthorizedAccount";
 import Footer from "../Footer/Footer";
 import Promo from "../Promo/Promo";
 import AboutProject from '../AboutProject/AboutProject';
@@ -10,7 +10,7 @@ import Portfolio from '../Portfolio/Portfolio';
 const Main = ({ isLoggedIn }) => {
 	return (
 		<>
-			{isLoggedIn ? <HeaderAuthorized /> : <Header />}
+			{isLoggedIn ? <HeaderAuthorizedAccount /> : <Header />}
 			<main className="content">
 				<Promo />
 				<AboutProject />

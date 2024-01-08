@@ -1,5 +1,5 @@
 .promo {
-	background-color: #073042;
+	background-color: rgba(7, 48, 66, 1);
 	display: grid;
 	grid-template-areas: "title image" "subtitle image" "button none";
 	color: #fff;

@@ -3,7 +3,7 @@ import { useState } from "react";
 import "../RegistrationForm/RegistrationForm.css";
 import "./LoginForm.css";
 import RegistrationField from "../RegistrationForm/RegistrationField/RegistrationField";
-import { EMAIL_REGEX } from "../../utils/contants";
+import { emailRegex } from "../../utils/contants";
 
 const LoginForm = ({ button, onSubmit }) => {
 	const [values, setValues] = useState({});
@@ -21,7 +21,7 @@ const LoginForm = ({ button, onSubmit }) => {
 	const handleEmailChange = (evt) => {
 		handleChange(evt);
 		const { name, value } = evt.target;
-		if (name === "email" && !EMAIL_REGEX.test(value)) {
+		if (name === "email" && !emailRegex.test(value)) {
 			setIsValid(false);
 			setErrors({
 				...errors,
@@ -69,42 +69,11 @@ const LoginForm = ({ button, onSubmit }) => {
 		<>
 			<section className="registration-form">
 				<div className="registration-form__container">
-					<form
-						className="registration-form__form"
-						name="login"
-						onSubmit={handleSubmit}
-						noValidate
-					>
-						<RegistrationField
-							label="E-mail"
-							name="email"
-							placeholder="Введите e-mail"
-							type="email"
-							handleChange={handleEmailChange}
-							values={values}
-							errors={errors}
-						/>
-						<RegistrationField
-							label="Пароль"
-							name="password"
-							placeholder="Введите пароль"
-							type="password"
-							handleChange={handlePasswordChange}
-							values={values}
-						/>
-						<p className="registration-field__input-error">
-							{!isValid && responseMessage}
-						</p>
-						<button
-							type="submit"
-							className={
-								!isValid ? "registration-form__submit-button link registration-form__submit-button_disabled"
-									: "registration-form__submit-button link"
-							}
-							disabled={!isValid}
-						>
-							{button}
-						</button>
+					<form className="registration-form__form" name="login" onSubmit={handleSubmit} noValidate>
+						<RegistrationField label="E-mail" name="email" placeholder="Введите e-mail" type="email" handleChange={handleEmailChange} values={values} errors={errors}/>
+						<RegistrationField label="Пароль" name="password" placeholder="Введите пароль" type="password" handleChange={handlePasswordChange} values={values}/>
+						<p className="registration-field__input-error">{!isValid && responseMessage}</p>
+						<button type="submit" className={ !isValid ? "registration-form__submit-button link registration-form__submit-button_disabled" : "registration-form__submit-button link"}disabled={!isValid}>{button}</button>
 					</form>
 				</div>
 			</section>
