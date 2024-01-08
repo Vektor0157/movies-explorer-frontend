@@ -11,7 +11,7 @@ const Movies = ({ savedMovies, moviesList, isLoading, onDelete, onSave, isConnec
 	const [isShort, setIsShort] = useState(
 		localStorage.getItem("isShort") === "true",
 	);
-	
+
 	const [search, setSearch] = useState(localStorage.getItem("search") || "");
 	const [isSearchStarted, setIsSearchStarted] = useState(
 		localStorage.getItem("isSearchStarted"),
@@ -19,8 +19,8 @@ const Movies = ({ savedMovies, moviesList, isLoading, onDelete, onSave, isConnec
 
 	const [filteredMovies, setFilteredMovies] = useState(
 		localStorage.getItem("filteredMovies")
-			? JSON.parse(localStorage.getItem("filteredMovies"))
-			: [],
+		? JSON.parse(localStorage.getItem("filteredMovies"))
+		: [],
 	);
 
 	function handleSearchSubmit(isShort) {
@@ -28,12 +28,11 @@ const Movies = ({ savedMovies, moviesList, isLoading, onDelete, onSave, isConnec
 			const filteredMovieInclude =
 				movie.nameRU.toLowerCase().includes(search.toLowerCase()) ||
 				movie.nameEN.toLowerCase().includes(search.toLowerCase());
-			return isShort
-				? movie.duration < short && filteredMovieInclude : filteredMovieInclude;
-		});
+				return isShort ? movie.duration < short && filteredMovieInclude : filteredMovieInclude;
+			});
 		setIsSearchStarted(true);
 		setFilteredMovies(movies);
-		localStorage.setItem("isShort", true);
+		localStorage.setItem("isShort", isShort);
 		localStorage.setItem("filteredMovies", JSON.stringify(movies));
 		localStorage.setItem("search", search);
 		localStorage.setItem("isSearchStarted", true);
@@ -43,15 +42,15 @@ const Movies = ({ savedMovies, moviesList, isLoading, onDelete, onSave, isConnec
 		if (isSearchStarted) {
 			loadAllMovies();
 		}
-	}, [isSearchStarted, loadAllMovies]);
+	}, [isSearchStarted]);
 
 	return (
 		<>
 			<HeaderAuthorized />
 			<main className="movies">
-				<SearchForm search={search} setSearch={setSearch} onSearch={handleSearchSubmit} isShort={isShort} setIsShort={setIsShort} isSearchStarted={isSearchStarted} />
+				<SearchForm search={search} setSearch={setSearch} onSearch={handleSearchSubmit} isShort={isShort} setIsShort={setIsShort} isSearchStarted={isSearchStarted}/>
 				{isSearchStarted && (
-					<MoviesCardList isLoading={isLoading} savedMovies={savedMovies} onSave={onSave} onDelete={onDelete} movies={filteredMovies} filteredMovies={filteredMovies} isConnectionError={isConnectionError} />
+					<MoviesCardList isLoading={isLoading} savedMovies={savedMovies} onSave={onSave} onDelete={onDelete} movies={filteredMovies} filteredMovies={filteredMovies} isConnectionError={isConnectionError}/>
 				)}
 			</main>
 			<Footer />

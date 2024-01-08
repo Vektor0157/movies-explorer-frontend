@@ -1,8 +1,9 @@
-import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
+import React from "react";
+import { useState } from "react";
 import './SearchForm.css';
-import React, { useState } from 'react';
+import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
-const SearchForm = ({ search, setSearch, onSearch, isShort, setIsShort, isSearchStarted }) => {
+const SearchForm = ({ search, setSearch, onSearch, isShort, setIsShort, isSearchStarted,}) => {
 	const [isEmptySearch, setIsEmptySearch] = useState(false);
 
 	const handleChange = (e) => {

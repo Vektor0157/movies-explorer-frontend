@@ -10,7 +10,7 @@ const MovieCard = ({ movieCard, onSave, onDelete, savedMovies }) => {
 			return savedMovies.some((m) => m.movieId === movieCard.id.toString());
 		}
 		return false;
-	}, [movieCard.id, path.pathname, savedMovies]);
+	}, [movieCard, savedMovies]);
 
 	const handleSave = () => {
 		!isLiked ? onSave(movieCard) : onDelete(movieCard);
@@ -31,14 +31,12 @@ const MovieCard = ({ movieCard, onSave, onDelete, savedMovies }) => {
 		<li className="movie">
 			<div className="movie__about">
 				<a className="movie__link" href={movieCard.trailerLink} rel="noreferrer">
-					<h2 className="movie__title link">
-						{movieCard.nameRU || movieCard.nameEN}
-					</h2>
+					<h2 className="movie__title link">{movieCard.nameRU || movieCard.nameEN}</h2>
 				</a>
 				<p className="movie__length">{convertTime(movieCard.duration)}</p>
 			</div>
 			<a className="movie__link" href={movieCard.trailerLink} rel="noreferrer">
-				<img className="movie__screenshot link" src={movieCard.image.url ? `https://api.nomoreparties.co${movieCard.image.url}` : movieCard.image} alt={movieCard.nameRU || movieCard.nameEN}/>
+				<img className="movie__screenshot link" src={ movieCard.image.url ? `https://api.nomoreparties.co${movieCard.image.url}` : movieCard.image } alt={movieCard.nameRU || movieCard.nameEN}/>
 			</a>
 			{path.pathname === "/saved-movies" ? (
 				<button className="movie__button movie__button_delete link" type="button" onClick={handleDelete}/>
@@ -50,3 +48,4 @@ const MovieCard = ({ movieCard, onSave, onDelete, savedMovies }) => {
 };
 
 export default MovieCard;
+
