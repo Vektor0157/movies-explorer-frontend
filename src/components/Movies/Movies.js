@@ -11,7 +11,7 @@ const Movies = ({ savedMovies, moviesList, isLoading, onDelete, onSave, isConnec
 	const [isShort, setIsShort] = useState(
 		localStorage.getItem("isShort") === "true",
 	);
-
+	
 	const [search, setSearch] = useState(localStorage.getItem("search") || "");
 	const [isSearchStarted, setIsSearchStarted] = useState(
 		localStorage.getItem("isSearchStarted"),
@@ -33,7 +33,7 @@ const Movies = ({ savedMovies, moviesList, isLoading, onDelete, onSave, isConnec
 		});
 		setIsSearchStarted(true);
 		setFilteredMovies(movies);
-		localStorage.setItem("isShort", isShort);
+		localStorage.setItem("isShort", true);
 		localStorage.setItem("filteredMovies", JSON.stringify(movies));
 		localStorage.setItem("search", search);
 		localStorage.setItem("isSearchStarted", true);
