@@ -2,8 +2,6 @@ import "./MoviesCard.css";
 import { useLocation } from "react-router-dom";
 import { useMemo } from "react";
 
-const MOVIE_IMAGE_URL = 'https://api.nomoreparties.co'
-
 const MovieCard = ({ movieCard, onSave, onDelete, savedMovies }) => {
 	const path = useLocation();
 
@@ -40,7 +38,7 @@ const MovieCard = ({ movieCard, onSave, onDelete, savedMovies }) => {
 				<p className="movie__length">{convertTime(movieCard.duration)}</p>
 			</div>
 			<a className="movie__link" href={movieCard.trailerLink} rel="noreferrer">
-				<img className="movie__screenshot link" src={movieCard.image.url ? `${MOVIE_IMAGE_URL}${movieCard.image.url}` : movieCard.image} alt={movieCard.nameRU || movieCard.nameEN}/>
+				<img className="movie__screenshot link" src={movieCard.image.url ? `https://api.nomoreparties.co${movieCard.image.url}` : movieCard.image} alt={movieCard.nameRU || movieCard.nameEN}/>
 			</a>
 			{path.pathname === "/saved-movies" ? (
 				<button className="movie__button movie__button_delete link" type="button" onClick={handleDelete}/>
