@@ -65,8 +65,7 @@ function App() {
 	};
 
 	const handleRegister = (name, email, password) => {
-		return api
-			.register(name, email, password)
+		return api.register(name, email, password)
 			.then(() => handleLogin(email, password));
 	};
 

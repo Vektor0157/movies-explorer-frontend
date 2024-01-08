@@ -26,9 +26,9 @@
 	font-weight: 400;
 	line-height: normal;
 	grid-area: subtitle;
-	opacity: 0.5;
 	max-width: 310px;
 	margin-bottom: 146px;
+	opacity: 50%
 }
 
 .promo_button {
@@ -39,9 +39,8 @@
 	font-weight: 500;
 	line-height: 16px;
 	background: inherit;
-	border: 1px solid #fff;
+	border: 1px solid rgba(255, 255, 255, 1);
 	border-radius: 3px;
-	opacity: 0.6;
 	width: 129px;
 	height: 36px;
 }

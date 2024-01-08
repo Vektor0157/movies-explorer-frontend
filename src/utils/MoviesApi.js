@@ -22,7 +22,7 @@ class MoviesApi {
 }
 
 const apiMovies = new MoviesApi({
-	baseUrl: 'https://api.nomoreparties.co/beatfilm-movies',
+	movieUrl: 'https://api.nomoreparties.co/beatfilm-movies',
 	headers: {
 		"Content-Type": "application/json",
 	},
