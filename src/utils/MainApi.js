@@ -11,6 +11,25 @@ class Api {
 		return Promise.reject({ status: res.status, message: res.message });
 	}
 
+	register(name, email, password) {
+		const data = { name, email, password };
+		return fetch(`${this.baseUrl}/signup`, {
+			method: "POST",
+			headers: this._headers,
+			body: JSON.stringify(data),
+		}).then((res) => this._checkData(res));
+	}
+
+	login(email, password) {
+		const data = { email, password };
+		return fetch(`${this.baseUrl}/signin`, {
+			method: "POST",
+			headers: this._headers,
+			body: JSON.stringify(data),
+			mode: "cors",
+		}).then((res) => this._checkData(res));
+	}
+
 	getUserInfo() {
 		return fetch(`${this.baseUrl}/users/me`, {
 			method: "GET",
@@ -69,25 +88,6 @@ class Api {
 				...this._headers,
 				Authorization: `Bearer ${localStorage.getItem("jwt")}`,
       },
-		}).then((res) => this._checkData(res));
-	}
-
-	register(name, email, password) {
-		const data = { name, email, password };
-		return fetch(`${this.baseUrl}/signup`, {
-			method: "POST",
-			headers: this._headers,
-			body: JSON.stringify(data),
-		}).then((res) => this._checkData(res));
-	}
-
-	login(email, password) {
-		const data = { email, password };
-		return fetch(`${this.baseUrl}/signin`, {
-			method: "POST",
-			headers: this._headers,
-			body: JSON.stringify(data),
-			mode: "cors",
 		}).then((res) => this._checkData(res));
 	}
 

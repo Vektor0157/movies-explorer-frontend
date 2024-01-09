@@ -31,7 +31,7 @@
 	opacity: 50%
 }
 
-.promo_button {
+.promo__button {
 	grid-area: button;
 	margin-bottom: 75px;
 	color: #fff;
@@ -85,6 +85,7 @@
 		font-size: 13px;
 		margin-top: 0;
 		margin-bottom: 92px;
+		text-align: center;
 	}
 }
 

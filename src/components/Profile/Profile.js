@@ -1,7 +1,7 @@
 import React, { useContext, useState, useCallback, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import './Profile.css';
-import HeaderAuthorized from "../HeaderAuthorized/HeaderAuthorized";
+import HeaderAuth from "../HeaderAuth/HeaderAuth";
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 import { nameRegex, emailRegex } from "../../utils/contants";
 
@@ -119,7 +119,7 @@ const Profile = ({ logOut, handleUserUpdate, isLoading }) => {
 
 	return (
 		<>
-			<HeaderAuthorized />
+			<HeaderAuth />
 			<main className="profile">
 				<section className="profile__container">
 					<h1 className="profile__title">{`Привет, ${currentUser.name}!`}</h1>

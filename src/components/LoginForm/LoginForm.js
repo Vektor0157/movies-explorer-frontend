@@ -1,8 +1,8 @@
 import React from "react";
 import { useState } from "react";
-import "../RegistrationForm/RegistrationForm.css";
+import "../Register/RegisterForm/RegisterForm.css";
 import "./LoginForm.css";
-import RegistrationField from "../RegistrationForm/RegistrationField/RegistrationField";
+import RegisterField from "../Register/RegisterForm/RegisterField/RegisterField";
 import { emailRegex } from "../../utils/contants";
 
 const LoginForm = ({ button, onSubmit }) => {
@@ -67,13 +67,13 @@ const LoginForm = ({ button, onSubmit }) => {
 
 	return (
 		<>
-			<section className="registration-form">
-				<div className="registration-form__container">
-					<form className="registration-form__form" name="login" onSubmit={handleSubmit} noValidate>
-						<RegistrationField label="E-mail" name="email" placeholder="Введите e-mail" type="email" handleChange={handleEmailChange} values={values} errors={errors}/>
-						<RegistrationField label="Пароль" name="password" placeholder="Введите пароль" type="password" handleChange={handlePasswordChange} values={values}/>
-						<p className="registration-field__input-error">{!isValid && responseMessage}</p>
-						<button type="submit" className={ !isValid ? "registration-form__submit-button link registration-form__submit-button_disabled" : "registration-form__submit-button link"}disabled={!isValid}>{button}</button>
+			<section className="register-form">
+				<div className="register-form__container">
+					<form className="register-form__content" name="login" onSubmit={handleSubmit} noValidate>
+						<RegisterField label="E-mail" name="email" placeholder="Введите e-mail" type="email" handleChange={handleEmailChange} values={values} errors={errors}/>
+						<RegisterField label="Пароль" name="password" placeholder="Введите пароль" type="password" handleChange={handlePasswordChange} values={values}/>
+						<p className="register-field__input-error">{!isValid && responseMessage}</p>
+						<button type="submit" className={ !isValid ? "register-form__submit-button link register-form__submit-button_disabled" : "register-form__submit-button link"}disabled={!isValid}>{button}</button>
 					</form>
 				</div>
 			</section>

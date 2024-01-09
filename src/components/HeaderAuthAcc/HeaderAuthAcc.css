@@ -1,9 +1,9 @@
-.header-authorized {
-  background: rgba(32, 32, 32, 1);
+.header-auth-acc {
+  background: rgba(7, 48, 66, 1);
   margin: 0;
 }
 
-.header-authorized__container {
+.header-auth-acc__container {
   padding: 18px 0;
   display: flex;
   justify-content: space-between;
@@ -11,25 +11,25 @@
   max-width: 1140px;
 }
 
-.header-authorized__menu {
+.header-auth-acc__menu {
   display: flex;
 }
 
-.header-authorized__profile {
+.header-auth-acc__profile {
   margin-left: 52px;
   justify-items: center;
   align-items: center;
   display: flex;
 }
 
-.header-authorized__logo {
+.header-auth-acc__logo {
   width: 38px;
   height: 38px;
   align-self: center;
   object-fit: contain;
 }
 
-.header-authorized__links {
+.header-auth-acc__links {
   display: flex;
   justify-content: space-between;
   gap: 20px;
@@ -37,13 +37,13 @@
   list-style-type: none;
 }
 
-.header-authorized__link {
+.header-auth-acc__link {
   justify-items: center;
   align-items: center;
   display: flex;
 }
 
-.header-authorized__hyperlink {
+.header-auth-acc__hyperlink {
   color: #fff;
   text-align: center;
   font-size: 14px;
@@ -52,17 +52,17 @@
   text-decoration: none;
 }
 
-.header-authorized__hyperlink_active {
+.header-auth-acc__hyperlink_active {
   font-weight: 500;
 }
 
-.header-authorized__account-logo {
+.header-auth-acc__account-logo {
   width: 30px;
   height: 30px;
   margin-left: 14px;
 }
 
-.header-authorized__burger-menu {
+.header-auth-acc__burger {
   display: none;
   width: 44px;
   height: 44px;
@@ -73,23 +73,23 @@
 }
 
 @media screen and (max-width: 1279px) {
-  .header-authorized__menu {
+  .header-auth-acc__menu {
     display: none;
   }
-  .header-authorized__burger-menu {
+  .header-auth-acc__burger {
     display: flex;
   }
-  .header-authorized__container {
+  .header-auth-acc__container {
     max-width: 708px;
   }
 }
 
 @media screen and (max-width: 767px) {
-  .header-authorized__burger-logo {
+  .header-auth-acc__burger-logo {
     width: 40px;
     height: 43px;
   }
-  .header-authorized__container {
+  .header-auth-acc__container {
     max-width: 292px;
   }
 }

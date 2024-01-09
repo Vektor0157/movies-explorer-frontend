@@ -33,7 +33,7 @@ const MoviesCardList = ({ isLoading, savedMovies, onSave, onDelete, movies, filt
 			!savedMoviesPath && setPaginate(showMoreMobile);
 			return;
 		} else if (window.innerWidth > widthTablet && window.innerWidth < widthDesktop) {
-			!savedMoviesPath && setPaginate(showMoreAddTablet);
+			!savedMoviesPath && setPaginate(showMoreTablet);
 			return;
 		} else {
 			!savedMoviesPath && setPaginate(showMoreDesktop);
@@ -44,7 +44,7 @@ const MoviesCardList = ({ isLoading, savedMovies, onSave, onDelete, movies, filt
 	const onMore = () => {
 		if (window.innerWidth < widthMobile) { 
 			return setPaginate(paginate + showMoreAddMobile);
-		} else if (window.innerWidth > showMoreTablet && window.innerWidth < widthDesktop) {
+		} else if (window.innerWidth > widthTablet && window.innerWidth < widthDesktop) {
 			return setPaginate(paginate + showMoreAddTablet);
 		} else {
 			return setPaginate(paginate + showMoreAddDesktop);
@@ -67,16 +67,16 @@ const MoviesCardList = ({ isLoading, savedMovies, onSave, onDelete, movies, filt
 	}, [cards, paginate]);
 
 	return (
-		<section className="movies-list">
+		<section className="movies-card-list">
 			{isConnectionError && (
-				<p className="movies-list__connection-error">Во время запроса произошла ошибка. Попробуйте ещё раз</p>
+				<p className="movies-card-list__connection-error">Во время запроса произошла ошибка. Попробуйте ещё раз</p>
 			)}
 			{!isConnectionError && !isLoading && (
 				<>
 					{cards.length === 0 ? (
 						<p className="movies__no-result">Ничего не найдено</p>
 					) : (
-						<ul className="movies-list__list">
+						<ul className="movies-card-list__list">
 							{cards.slice(0, paginate).map((card) => (
 								<MovieCard movieCard={card} onSave={onSave} onDelete={onDelete} savedMovies={savedMovies} filtredMovies={filteredMovies} key={card.id || card.movieId}/>
 							))}
@@ -87,7 +87,7 @@ const MoviesCardList = ({ isLoading, savedMovies, onSave, onDelete, movies, filt
 			{!isLoading && 
 				<div className="movies__more-button-container">
 					{path.pathname === "/movies" && moreButton && (
-						<button className="movies-list__button link" type="button" onClick={onMore}>Еще</button>
+						<button className="movies-card-list__button link" type="button" onClick={onMore}>Еще</button>
 					)}
 				</div>
 			}

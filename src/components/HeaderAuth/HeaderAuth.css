@@ -1,35 +1,35 @@
-.header-authorized-account {
-  background: rgba(7, 48, 66, 1);
+.header-auth {
+  background: rgba(32, 32, 32, 1);
   margin: 0;
 }
 
-.header-authorized-account__container {
-  padding: 18px 0;
-  display: flex;
-  justify-content: space-between;
-  margin: 0 auto;
-  max-width: 1140px;
+.header-auth__container {
+	padding: 18px 0;
+	display: flex;
+	justify-content: space-between;
+	margin: 0 auto;
+	max-width: 1140px;
 }
 
-.header-authorized-account__menu {
+.header-auth__menu {
   display: flex;
 }
 
-.header-authorized-account__profile {
+.header-auth__profile {
   margin-left: 52px;
   justify-items: center;
   align-items: center;
   display: flex;
 }
 
-.header-authorized-account__logo {
+.header-auth__logo {
   width: 38px;
   height: 38px;
   align-self: center;
   object-fit: contain;
 }
 
-.header-authorized-account__links {
+.header-auth__links {
   display: flex;
   justify-content: space-between;
   gap: 20px;
@@ -37,13 +37,13 @@
   list-style-type: none;
 }
 
-.header-authorized-account__link {
+.header-auth__link {
   justify-items: center;
   align-items: center;
   display: flex;
 }
 
-.header-authorized-account__hyperlink {
+.header-auth__hyperlink {
   color: #fff;
   text-align: center;
   font-size: 14px;
@@ -52,17 +52,17 @@
   text-decoration: none;
 }
 
-.header-authorized-account__hyperlink_active {
+.header-auth__hyperlink_active {
   font-weight: 500;
 }
 
-.header-authorized-account__account-logo {
+.header-auth__account-logo {
   width: 30px;
   height: 30px;
   margin-left: 14px;
 }
 
-.header-authorized-account__burger-menu {
+.header-auth__burger {
   display: none;
   width: 44px;
   height: 44px;
@@ -73,23 +73,23 @@
 }
 
 @media screen and (max-width: 1279px) {
-  .header-authorized-account__menu {
+  .header-auth__menu {
     display: none;
   }
-  .header-authorized-account__burger-menu {
+  .header-auth__burger {
     display: flex;
   }
-  .header-authorized-account__container {
+  .header-auth__container {
     max-width: 708px;
   }
 }
 
 @media screen and (max-width: 767px) {
-  .header-authorized-account__burger-logo {
+  .header-auth__burger-logo {
     width: 40px;
     height: 43px;
   }
-  .header-authorized-account__container {
+  .header-auth__container {
     max-width: 292px;
   }
 }

@@ -4,7 +4,6 @@ import { useMemo } from "react";
 
 const MovieCard = ({ movieCard, onSave, onDelete, savedMovies }) => {
 	const path = useLocation();
-
 	const isLiked = useMemo(() => {
 		if (path.pathname === "/movies") {
 			return savedMovies.some((m) => m.movieId === movieCard.id.toString());
@@ -28,20 +27,20 @@ const MovieCard = ({ movieCard, onSave, onDelete, savedMovies }) => {
 	};
 
 	return (
-		<li className="movie">
-			<div className="movie__about">
-				<a className="movie__link" href={movieCard.trailerLink} rel="noreferrer">
-					<h2 className="movie__title link">{movieCard.nameRU || movieCard.nameEN}</h2>
+		<li className="movie-card">
+			<div className="movie-card__description">
+				<a className="movie-card__link" href={movieCard.trailerLink} rel="noreferrer">
+					<h2 className="movie-card__title link">{movieCard.nameRU || movieCard.nameEN}</h2>
 				</a>
-				<p className="movie__length">{convertTime(movieCard.duration)}</p>
+				<p className="movie-card__length">{convertTime(movieCard.duration)}</p>
 			</div>
-			<a className="movie__link" href={movieCard.trailerLink} rel="noreferrer">
-				<img className="movie__screenshot link" src={ movieCard.image.url ? `https://api.nomoreparties.co${movieCard.image.url}` : movieCard.image} alt={movieCard.nameRU || movieCard.nameEN}/>
+			<a className="movie-card__link" href={movieCard.trailerLink} rel="noreferrer">
+				<img className="movie-card__screenshot link" src={ movieCard.image.url ? `https://api.nomoreparties.co${movieCard.image.url}` : movieCard.image} alt={movieCard.nameRU || movieCard.nameEN}/>
 			</a>
 			{path.pathname === "/saved-movies" ? (
-				<button className="movie__button movie__button_delete link" type="button" onClick={handleDelete}/>
+				<button className="movie-card__button movie-card__button_delete link" type="button" onClick={handleDelete}/>
 			) : (
-				<button className={ isLiked ? "movie__button link movie__button_saved" : "movie__button link movie__button_save" } type="button" onClick={isLiked ? handleDelete : handleSave}/>
+				<button className={ isLiked ? "movie-card__button link movie-card__button_saved" : "movie-card__button link movie-card__button_save" } type="button" onClick={isLiked ? handleDelete : handleSave}/>
 			)}
 		</li>
 	);

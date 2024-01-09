@@ -25,17 +25,17 @@ const SearchForm = ({ search, setSearch, onSearch, isShort, setIsShort, isSearch
 	};
 
 	return (
-		<section className="search">
-			<form className="search__form-container" onSubmit={handleFormSubmit} noValidate>
-				<div className="search__form">
-					<input type="text" className="search__form-field" placeholder="Фильм" name="movie" minLength="2" maxLength="40" onChange={handleChange} value={search} required/>
-					<button className="search__submit-button link">Поиск</button>
+		<section className="search-form">
+			<form className="search-form__container" onSubmit={handleFormSubmit} noValidate>
+				<div className="search-form__content">
+					<input type="text" className="search-form__field" placeholder="Фильм" name="movie" minLength="2" maxLength="40" onChange={handleChange} value={search} required/>
+					<button className="search-form__submit-button link">Поиск</button>
 				</div>
-				<div className="search__short-movie">
+				<div className="search-form__short-movie">
 					<FilterCheckbox label="Короткометражки" handleCheckbox={handleCheckbox} isShort={isShort}/>
 				</div>
 				{isEmptySearch && (
-					<p className="search__error">Нужно ввести ключевое слово</p>
+					<p className="search-form__error">Нужно ввести ключевое слово</p>
 				)}
 			</form>
 		</section>

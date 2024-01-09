@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import "./Movies.css";
 import Footer from "../Footer/Footer";
-import HeaderAuthorized from "../HeaderAuthorized/HeaderAuthorized";
+import HeaderAuth from "../HeaderAuth/HeaderAuth";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import { short } from "../../utils/contants";
@@ -47,7 +47,7 @@ const Movies = ({ savedMovies, moviesList, isLoading, onDelete, onSave, isConnec
 
 	return (
 		<>
-			<HeaderAuthorized />
+			<HeaderAuth />
 			<main className="movies">
 				<SearchForm search={search} setSearch={setSearch} onSearch={handleSearchSubmit} isShort={isShort} setIsShort={setIsShort} isSearchStarted={isSearchStarted}/>
 				{isSearchStarted && (

@@ -1,8 +1,8 @@
 import React from "react";
 import { useState } from "react";
-import "./RegistrationForm.css";
-import RegistrationField from "./RegistrationField/RegistrationField";
-import { nameRegex, emailRegex } from "../../utils/contants";
+import "./RegisterForm.css";
+import RegisterField from "./RegisterField/RegisterField";
+import { nameRegex, emailRegex } from "../../../utils/contants";
 
 const RegistrationForm = ({ button, onSubmit }) => {
 	const [values, setValues] = useState({});
@@ -81,54 +81,14 @@ const RegistrationForm = ({ button, onSubmit }) => {
 
 	return (
 		<>
-			<section className="registration-form">
-				<div className="registration-form__container">
-					<form
-						className="registration-form__form"
-						name="register"
-						onSubmit={handleSubmit}
-						noValidate
-					>
-						<RegistrationField
-							label="Имя"
-							name="name"
-							placeholder="Введите имя"
-							type="text"
-							handleChange={handleNameChange}
-							values={values}
-							errors={errors}
-						/>
-						<RegistrationField
-							label="E-mail"
-							name="email"
-							placeholder="Введите e-mail"
-							type="email"
-							handleChange={handleEmailChange}
-							values={values}
-							errors={errors}
-						/>
-						<RegistrationField
-							label="Пароль"
-							name="password"
-							placeholder="Введите пароль"
-							type="password"
-							handleChange={handlePasswordChange}
-							values={values}
-							errors={errors}
-						/>
-						<p className="registration-field__input-error">
-							{!isValid && responseMessage}
-						</p>
-						<button
-							type="submit"
-							className={
-								!isValid ? "registration-form__submit-button link registration-form__submit-button_disabled"
-									: "registration-form__submit-button link"
-							}
-							disabled={!isValid}
-						>
-							{button}
-						</button>
+			<section className="register-form">
+				<div className="register-form__container">
+					<form className="register-form__content" name="register" onSubmit={handleSubmit} noValidate>
+						<RegisterField label="Имя" name="name" placeholder="Введите имя" type="text" handleChange={handleNameChange} values={values} errors={errors}/>
+						<RegisterField label="E-mail" name="email" placeholder="Введите e-mail" type="email" handleChange={handleEmailChange} values={values} errors={errors}/>
+						<RegisterField label="Пароль" name="password" placeholder="Введите пароль" type="password" handleChange={handlePasswordChange} values={values} errors={errors}/>
+						<p className="register-field__input-error">{!isValid && responseMessage}</p>
+						<button type="submit" className={ !isValid ? "register-form__submit-button link register-form__submit-button_disabled" : "register-form__submit-button link"} disabled={!isValid}>{button}</button>
 					</form>
 				</div>
 			</section>

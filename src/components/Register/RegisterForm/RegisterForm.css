@@ -1,15 +1,15 @@
-.registration-form__container {
+.register-form__container {
    width: 100%;
 }
 
-.registration-form__form {
+.register-form__content {
    width: 100%;
    display: flex;
    flex-direction: column;
    gap: 24px;
 }
 
-.registration-form__submit-button {
+.register-form__submit-button {
    width: 396px;
    min-height: 45px;
    border-radius: 3px;
@@ -23,23 +23,23 @@
    margin-top: 128px;
 }
 
-.registration-form__submit-button_disabled {
+.register-form__submit-button_disabled {
    opacity: 0.5;
    cursor: not-allowed;
 
 }
 
-.registration-form__submit-button_signin {
+.register-form__submit-button_signin {
    margin-top: 196px;
 }
 
 @media screen and (max-width: 767px) {
-   .registration-form__submit-button {
+   .register-form__submit-button {
       margin-top: 215px;
       width: 260px;
       font-size: 12px;
    }
-   .registration-form__submit-button_signin {
+   .register-form__submit-button_signin {
       margin-top: 285px;
    }
 }

@@ -1,4 +1,4 @@
-.movie {
+.movie-card {
 	width: 360px;
 	min-height: 319px;
 	margin: 0;
@@ -10,17 +10,17 @@
 	list-style: none;
  }
  
- .movie__link {
+ .movie-card__link {
 	text-decoration: none;
  }
- .movie__about {
+ .movie-card__description {
 	display: flex;
 	gap: 14px;
 	margin: 17px;
 	justify-content: space-between;
  }
  
- .movie__title {
+ .movie-card__title {
 	max-width: 240px;
 	color: #fff;
 	font-size: 15px;
@@ -30,7 +30,7 @@
 	margin: 0;
  }
  
- .movie__length {
+ .movie-card__length {
 	max-width: 70px;
 	color: #8b8b8b;
 	text-align: right;
@@ -40,13 +40,13 @@
 	margin: 0;
  }
  
- .movie__screenshot {
+ .movie-card__screenshot {
 	width: 360px;
 	height: 200px;
 	object-fit: cover;
  }
  
- .movie__button {
+ .movie-card__button {
 	width: 100px;
 	height: 29px;
 	 padding: 0;
@@ -55,56 +55,56 @@
 	margin: 16px auto;
  }
  
- .movie__button_delete {
+ .movie-card__button_delete {
 	 background: url('../../images/delete-button.svg') center no-repeat;
  }
  
- .movie__button_save {
+ .movie-card__button_save {
 	 background: url('../../images/save-button.svg') center no-repeat;
  }
  
- .movie__button_saved {
+ .movie-card__button_saved {
 	 background: url('../../images/saved-button.svg') center no-repeat;
  }
  
  @media screen and (max-width: 1279px) {
-	.movie {
+	.movie-card {
 	  width: 342px;
 	  min-height: 309px;
 	}
-	.movie__about {
+	.movie-card__description {
 	  gap: 12px;
 	}
-	.movie__screenshot {
+	.movie-card__screenshot {
 	  width: 342px;
 	  height: 190px;
 	}
  }
  
  @media screen and (max-width: 767px) {
-	.movie {
+	.movie-card {
 	  width: 300px;
 	  min-height: 271px;
 	}
-	.movie__about {
+	.movie-card__description {
 	  gap: 22px;
 	  margin: 14px;
 	}
-	.movie__title {
+	.movie-card__title {
 	  max-width: 200px;
 	  font-size: 12px;
 	  line-height: 1.5;
 	}
-	.movie__length {
+	.movie-card__length {
 	  max-width: 50px;
 	  font-size: 10px;
 	  line-height: 1.8;
 	}
-	.movie__screenshot {
+	.movie-card__screenshot {
 	  width: 300px;
 	  height: 168px;
 	}
-	.movie__button {
+	.movie-card__button {
 	  margin-top: 10px;
 	}
  }

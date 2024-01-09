@@ -1,5 +1,6 @@
+import "./Main.css";
 import Header from "../Header/Header";
-import HeaderAuthorizedAccount from "../HeaderAuthorizedAccount/HeaderAuthorizedAccount";
+import HeaderAuthAcc from "../HeaderAuthAcc/HeaderAuthAcc";
 import Footer from "../Footer/Footer";
 import Promo from "../Promo/Promo";
 import AboutProject from '../AboutProject/AboutProject';
@@ -10,11 +11,15 @@ import Portfolio from '../Portfolio/Portfolio';
 const Main = ({ isLoggedIn }) => {
 	return (
 		<>
-			{isLoggedIn ? <HeaderAuthorizedAccount /> : <Header />}
+			{isLoggedIn ? <HeaderAuthAcc /> : <Header />}
 			<main className="content">
-				<Promo />
+				<div className="background-green">
+					<Promo />
+				</div>
 				<AboutProject />
-				<Techs />
+				<div className="background-gray">
+					<Techs />
+				</div>
 				<AboutMe />
 				<Portfolio />
 			</main>
