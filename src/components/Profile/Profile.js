@@ -83,7 +83,7 @@ const Profile = ({ logOut, handleUserUpdate, isLoading }) => {
 			email = values.email === currentUser.email;
 		}
 		setIsSimilarValues(name && email);
-	}, [values.name, values.email, currentUser.name, currentUser.email]);
+	}, [values.name, values.email]);
 
 	useEffect(() => {
 		if (!isLoading) {
@@ -113,9 +113,7 @@ const Profile = ({ logOut, handleUserUpdate, isLoading }) => {
 
 	const profileSubmitButtonClassName = `profile__submit-button links ${
 		isDisabled ? "profile__submit-button_disabled" : ""
-	} $ {
-		!isValid || isLoading || isSimilarValues ? "profile__submit-button_inactive" : ""
-	}`;
+	} ${!isValid || isLoading || isSimilarValues ? "profile__submit-button_inactive" : ""}`;
 
 	return (
 		<>
@@ -138,11 +136,11 @@ const Profile = ({ logOut, handleUserUpdate, isLoading }) => {
 						{errors && (
 							<span className="profile__input-error">{errors.email}</span>
 						)}
-						<button className={profileSubmitButtonClassName} type="submit" disabled={!isValid || isLoading || isSimilarValues ? true : false}>Сохранить</button>
-						<button type="button" onClick={handleEditButton} className="profile__submit-button link">
-							{isDisabled ? "Редактировать" : "Отменить"}
-						</button>
 					</form>
+					<button className={profileSubmitButtonClassName} type="submit" disabled={!isValid || isLoading || isSimilarValues ? true : false}>Сохранить</button>
+					<button type="button" onClick={handleEditButton} className="profile__submit-button link">
+						{isDisabled ? "Редактировать" : "Отменить"}
+					</button>
 					<Link to="/" className="profile__signout-button link" onClick={logOut}>Выйти из аккаунта</Link>
 				</section>
 			</main>

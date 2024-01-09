@@ -8,6 +8,7 @@ import Login from '../Login/Login';
 import Register from '../Register/Register';
 import Profile from '../Profile/Profile';
 import NotFound from '../NotFound/NotFound';
+import Popup from "../Popup/Popup";
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 import api from '../../utils/MainApi';
 import apiMovies from "../../utils/MoviesApi";
@@ -21,6 +22,10 @@ function App() {
 	const [moviesList, setMoviesList] = useState([]);
 	const [savedMovies, setSavedMovies] = useState([]);
 	const [isConnectionError, setIsConnectionError] = useState(false);
+	const [isPopupSuccess, setIsPopupSuccess] = useState({
+		isOpen: false,
+		isSuccess: false,
+	});
 
 	useEffect(() => {
 		const jwt = localStorage.getItem("jwt");
@@ -80,13 +85,28 @@ function App() {
 		api.editUserInfo(userData)
 			.then((data) => {
 				setCurrentUser(data);
+				setIsPopupSuccess({
+					isOpen: true,
+					isSuccess: true,
+				});
 			})
 			.catch((err) => {
 				console.log(err);
+				setIsPopupSuccess({
+					isOpen: true,
+					isSuccess: false,
+				});
 			})
 			.finally(() => {
 				setIsLoading(false);
 			});
+	};
+
+	const closePopup = () => {
+		setIsPopupSuccess({
+			isOpen: false,
+			isSuccess: false,
+		});
 	};
 
 	const loadAllMovies = () => {
@@ -190,6 +210,7 @@ function App() {
 					}/>
 					<Route path="*" element={<NotFound />} />
 				</Routes>
+				<Popup onClose={closePopup} isSuccess={isPopupSuccess.isSuccess} isOpen={isPopupSuccess.isOpen}/>
 			</CurrentUserContext.Provider>
 		</div>
 	);
