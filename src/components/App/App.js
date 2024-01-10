@@ -39,6 +39,9 @@ function App() {
 					_id: data._id,
 				}));
 				setIsLoggedIn(true);
+				if (path.pathname === "/signin" || path.pathname === "/signup") {
+					navigate("/movies", { replace: true });
+				}
 			})
 			.catch((err) => {
 				console.log(err);

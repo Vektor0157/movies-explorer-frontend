@@ -136,11 +136,11 @@ const Profile = ({ logOut, handleUserUpdate, isLoading }) => {
 						{errors && (
 							<span className="profile__input-error">{errors.email}</span>
 						)}
+						<button className={profileSubmitButtonClassName} type="submit" disabled={!isValid || isLoading || isSimilarValues ? true : false}>Сохранить</button>
+						<button type="button" onClick={handleEditButton} className="profile__submit-button link">
+							{isDisabled ? "Редактировать" : "Отменить"}
+						</button>
 					</form>
-					<button className={profileSubmitButtonClassName} type="submit" disabled={!isValid || isLoading || isSimilarValues ? true : false}>Сохранить</button>
-					<button type="button" onClick={handleEditButton} className="profile__submit-button link">
-						{isDisabled ? "Редактировать" : "Отменить"}
-					</button>
 					<Link to="/" className="profile__signout-button link" onClick={logOut}>Выйти из аккаунта</Link>
 				</section>
 			</main>

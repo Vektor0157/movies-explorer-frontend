@@ -3,6 +3,7 @@ import { useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import './MoviesCardList.css';
 import MovieCard from '../MoviesCard/MoviesCard';
+import Preloader from "../Preloader/Preloader";
 import {
 	widthDesktop,
 	widthTablet,
@@ -42,7 +43,7 @@ const MoviesCardList = ({ isLoading, savedMovies, onSave, onDelete, movies, filt
 	}, [setPaginate, savedMoviesPath]);
 
 	const onMore = () => {
-		if (window.innerWidth < widthMobile) { 
+		if (window.innerWidth < widthMobile) {
 			return setPaginate(paginate + showMoreAddMobile);
 		} else if (window.innerWidth > widthTablet && window.innerWidth < widthDesktop) {
 			return setPaginate(paginate + showMoreAddTablet);
@@ -71,6 +72,7 @@ const MoviesCardList = ({ isLoading, savedMovies, onSave, onDelete, movies, filt
 			{isConnectionError && (
 				<p className="movies-card-list__connection-error">Во время запроса произошла ошибка. Попробуйте ещё раз</p>
 			)}
+			{isLoading && <Preloader />}
 			{!isConnectionError && !isLoading && (
 				<>
 					{cards.length === 0 ? (
