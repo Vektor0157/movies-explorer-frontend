@@ -1,7 +1,7 @@
 export const short = 40;
 export const widthDesktop = 1280;
-export const widthTablet = 768;
-export const widthMobile = 767;
+export const widthTablet = 769;
+export const widthMobile = 768;
 
 export const showMoreDesktop = 12;
 export const showMoreTablet = 8;
