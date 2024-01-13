@@ -115,8 +115,11 @@ function App() {
 	const loadAllMovies = () => {
 		setIsLoading(true);
 		setIsConnectionError(false);
+		const storedMovies = JSON.parse(localStorage.getItem("moviesList"));
+		if (!storedMovies || storedMovies.length === 0) {
 		apiMovies.getMovies()
 			.then((data) => {
+				localStorage.setItem("moviesList", JSON.stringify(data));
 				setMoviesList(data);
 			})
 			.catch((err) => {
@@ -126,6 +129,10 @@ function App() {
 			.finally(() => {
 				setIsLoading(false);
 			});
+		} else {
+			setMoviesList(storedMovies);
+			setIsLoading(false);
+		}
 	};
 
 	useEffect(() => {
