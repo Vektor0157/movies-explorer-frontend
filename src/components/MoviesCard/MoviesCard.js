@@ -1,0 +1,50 @@
+import "./MoviesCard.css";
+import { useLocation } from "react-router-dom";
+import { useMemo } from "react";
+
+const MovieCard = ({ movieCard, onSave, onDelete, savedMovies }) => {
+	const path = useLocation();
+	const isLiked = useMemo(() => {
+		if (path.pathname === "/movies") {
+			return savedMovies.some((m) => m.movieId === movieCard.id.toString());
+		}
+		return false;
+	}, [movieCard, savedMovies]);
+
+	const handleSave = () => {
+		!isLiked ? onSave(movieCard) : onDelete(movieCard);
+	};
+
+	const handleDelete = () => {
+		return onDelete(movieCard);
+	};
+
+	const convertTime = (length) => {
+		if (length >= 60) {
+			return `${Math.floor(length / 60)} ч ${length % 60} мин`;
+		}
+		return `${length}м`;
+	};
+
+	return (
+		<li className="movie-card">
+			<div className="movie-card__description">
+				<a className="movie-card__link" href={movieCard.trailerLink} rel="noreferrer">
+					<h2 className="movie-card__title link">{movieCard.nameRU || movieCard.nameEN}</h2>
+				</a>
+				<p className="movie-card__length">{convertTime(movieCard.duration)}</p>
+			</div>
+			<a className="movie-card__link" href={movieCard.trailerLink} rel="noreferrer">
+				<img className="movie-card__screenshot link" src={ movieCard.image.url ? `https://api.nomoreparties.co${movieCard.image.url}` : movieCard.image} alt={movieCard.nameRU || movieCard.nameEN}/>
+			</a>
+			{path.pathname === "/saved-movies" ? (
+				<button className="movie-card__button movie-card__button_delete link" type="button" onClick={handleDelete}/>
+			) : (
+				<button className={ isLiked ? "movie-card__button link movie-card__button_saved" : "movie-card__button link movie-card__button_save" } type="button" onClick={isLiked ? handleDelete : handleSave}/>
+			)}
+		</li>
+	);
+};
+
+export default MovieCard;
+
